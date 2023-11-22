@@ -1,0 +1,33 @@
+/* styles/Home.module.css */
+.container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.habitTracker {
+  display: grid;
+  grid-template-columns: repeat(7, 40px);
+  gap: 5px;
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.habitDay {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.success {
+  background-color: #5cb85c; /* Green color for successful days */
+  color: #fff;
+}
+
+.failure {
+  background-color: #d9534f; /* Red color for unsuccessful days */
+  color: #fff;
+}
