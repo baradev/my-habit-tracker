@@ -22,12 +22,7 @@
   cursor: pointer;
 }
 
-.success {
-  background-color: #5cb85c; /* Green color for successful days */
-  color: #fff;
-}
-
-.failure {
-  background-color: #d9534f; /* Red color for unsuccessful days */
+.completed {
+  background-color: #5cb85c; /* Green color for completed days */
   color: #fff;
 }
