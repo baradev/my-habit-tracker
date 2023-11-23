@@ -1,19 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const HabitTracker = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Current month
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Current year
 
-  const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-  const initialHabitData = Array.from({ length: daysInMonth }, () => false);
-  const [habitData, setHabitData] = useState(initialHabitData);
+  useEffect(() => {
+    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+    const initialHabitData = Array.from({ length: daysInMonth }, () => false);
+    setDoneHabitData(initialHabitData);
+    setFailedHabitData(initialHabitData);
+  }, [selectedMonth, selectedYear]);
 
-  const toggleDay = (dayIndex) => {
-    const updatedHabitData = [...habitData];
-    updatedHabitData[dayIndex] = !habitData[dayIndex];
-    setHabitData(updatedHabitData);
+  const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+
+  const [doneHabitData, setDoneHabitData] = useState([]);
+  const [failedHabitData, setFailedHabitData] = useState([]);
+
+  const toggleDay = (dayIndex: number) => {
+    const updatedDoneHabitData = [...doneHabitData];
+    updatedDoneHabitData[dayIndex] = !doneHabitData[dayIndex];
+    setDoneHabitData(updatedDoneHabitData);
   };
 
   return (
@@ -50,31 +58,45 @@ const HabitTracker = () => {
         </label>
       </div>
 
-      <table className="table-fixed, border ">
-        <tr>
-          <td>Day</td>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", height: 30 }}>
           {Array.from({ length: daysInMonth }, (_, i) => (
-            <th key={i + 1} className="border">
+            <div
+              key={i + 1}
+              style={{
+                flex: 1,
+                border: "1px solid black",
+                textAlign: "center",
+                width: 30,
+              }}
+            >
               {i + 1}
-            </th>
+            </div>
           ))}
-        </tr>
+        </div>
 
-        <tr>
-          <td>Status</td>
-          {habitData.map((isDone, index) => (
-            <td
+        <div style={{ display: "flex", height: 30 }}>
+          {doneHabitData.map((isDone, index) => (
+            <div
               key={index + 1}
               onClick={() => toggleDay(index)}
               style={{
+                flex: 1,
                 cursor: "pointer",
                 backgroundColor: isDone ? "green" : "white",
+                border: "1px solid black",
+                width: 30,
               }}
-              className="border"
-            ></td>
+            ></div>
           ))}
-        </tr>
-      </table>
+        </div>
+        <div style={{ display: "flex" }}>
+          <div>
+            <label htmlFor="textInput">Enter Habit:</label>
+            <input type="text" id="textInput" name="textInput"></input>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
