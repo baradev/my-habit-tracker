@@ -1,22 +1,13 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const HabitTracker = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // Current month
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Current year
 
-  useEffect(() => {
-    const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-    const initialHabitData = Array.from({ length: daysInMonth }, () => false);
-    setDoneHabitData(initialHabitData);
-    setFailedHabitData(initialHabitData);
-  }, [selectedMonth, selectedYear]);
-
   const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
-
-  const [doneHabitData, setDoneHabitData] = useState([]);
-  const [failedHabitData, setFailedHabitData] = useState([]);
+  const initialHabitData = Array.from({ length: daysInMonth }, () => false);
+  const [doneHabitData, setDoneHabitData] = useState(initialHabitData);
 
   const toggleDay = (dayIndex: number) => {
     const updatedDoneHabitData = [...doneHabitData];
@@ -89,12 +80,6 @@ const HabitTracker = () => {
               }}
             ></div>
           ))}
-        </div>
-        <div style={{ display: "flex" }}>
-          <div>
-            <label htmlFor="textInput">Enter Habit:</label>
-            <input type="text" id="textInput" name="textInput"></input>
-          </div>
         </div>
       </div>
     </div>
