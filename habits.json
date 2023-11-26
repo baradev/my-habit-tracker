@@ -1,0 +1,24 @@
+{
+  "Habits": [
+    {
+      "color": "#A7E8BD",
+      "name": "Sugar free",
+      "id": "1"
+    },
+    {
+      "color": "#FCBCB8",
+      "name": "Going to bed early",
+      "id": "2"
+    },
+    {
+      "color": "#6D9DC5",
+      "name": "Excercising",
+      "id": "3"
+    },
+    {
+      "color": "#FFD972",
+      "name": "Read a book",
+      "id": "4"
+    }
+  ]
+}

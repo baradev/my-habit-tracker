@@ -82,9 +82,9 @@ const HabitTracker: React.FC<HabitTrackerProps> = () => {
 
       <div style={{ display: "flex", flexDirection: "column" }}>
         <div style={{ display: "flex", height: 30 }}>
-          {Array.from({ length: doneHabitData.length }, (_, i) => (
+          {Array.from({ length: doneHabitData.length + 1 }, (_, i) => (
             <div
-              key={i + 1}
+              key={i}
               style={{
                 flex: 1,
                 border: "1px solid black",
@@ -92,29 +92,27 @@ const HabitTracker: React.FC<HabitTrackerProps> = () => {
                 width: 30,
               }}
             >
-              {i + 1}
+              {i === 0 ? "" : i}
             </div>
           ))}
         </div>
 
         {habits.map((habit, habitIndex) => (
-          <div key={habitIndex}>
-            <div style={{ display: "flex", height: 30 }}>
-              {doneHabitData.map((isDone, dayIndex) => (
-                <div
-                  key={dayIndex + 1}
-                  onClick={() => toggleDay(dayIndex, habitIndex)}
-                  style={{
-                    flex: 1,
-                    cursor: "pointer",
-                    backgroundColor: isDone[habitIndex] ? "green" : "white",
-                    border: "1px solid black",
-                    width: 30,
-                  }}
-                ></div>
-              ))}
-            </div>
-            <div>{habit}</div>
+          <div key={habitIndex} style={{ display: "flex", height: 30 }}>
+            <div style={{ flex: 1, width: 30 }}>{habit}</div>
+            {doneHabitData.map((isDone, dayIndex) => (
+              <div
+                key={dayIndex + 1}
+                onClick={() => toggleDay(dayIndex, habitIndex)}
+                style={{
+                  flex: 1,
+                  cursor: "pointer",
+                  backgroundColor: isDone[habitIndex] ? "green" : "white",
+                  border: "1px solid black",
+                  width: 30,
+                }}
+              ></div>
+            ))}
           </div>
         ))}
       </div>
