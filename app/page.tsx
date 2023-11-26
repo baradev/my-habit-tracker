@@ -4,6 +4,7 @@ interface Habit {
   color: string;
   name: string;
   id: string;
+  day: number;
 }
 
 interface HabitData {
@@ -16,21 +17,25 @@ const habitData: HabitData = {
       color: "green-200",
       name: "Sugar free",
       id: "1",
+      day: 30,
     },
     {
       color: "indigo-200",
       name: "Going to bed early",
       id: "2",
+      day: 30,
     },
     {
       color: "rose-200",
       name: "Excercising",
       id: "3",
+      day: 30,
     },
     {
       color: "amber-200",
       name: "Read a book",
       id: "4",
+      day: 30,
     },
   ],
 };
