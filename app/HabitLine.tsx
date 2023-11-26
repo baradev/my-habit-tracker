@@ -11,10 +11,8 @@ interface HabitLineProps {
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
-  const tailwindClass = `bg-${habit.color}-100`;
-
   return (
-    <div className="p-5 mt-5" style={{ backgroundColor: habit.color }}>
+    <div className={`p-5 bg-${habit.color} mt-8`}>
       <h2>{habit.name}</h2>
     </div>
   );

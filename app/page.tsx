@@ -1,5 +1,10 @@
 import HabitLine from "./HabitLine";
-import HabitTracker from "./HabitTracker";
+
+interface Habit {
+  color: string;
+  name: string;
+  id: string;
+}
 
 interface HabitData {
   Habits: Habit[];
@@ -8,22 +13,22 @@ interface HabitData {
 const habitData: HabitData = {
   Habits: [
     {
-      color: "green",
+      color: "green-200",
       name: "Sugar free",
       id: "1",
     },
     {
-      color: "yellow",
+      color: "indigo-200",
       name: "Going to bed early",
       id: "2",
     },
     {
-      color: "blue",
+      color: "rose-200",
       name: "Excercising",
       id: "3",
     },
     {
-      color: "red",
+      color: "amber-200",
       name: "Read a book",
       id: "4",
     },
