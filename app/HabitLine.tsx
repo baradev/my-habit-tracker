@@ -1,11 +1,10 @@
 import React from "react";
-import dayjs from "dayjs";
 
 interface Habit {
   color: string;
   name: string;
   id: string;
-  date: string;
+  days: number;
 }
 
 interface HabitLineProps {
@@ -13,13 +12,15 @@ interface HabitLineProps {
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
-  const daysInMonth = dayjs(habit.date).daysInMonth();
-
   return (
-    <div className={`p-4 mt-3 bg-${habit.color}`}>
-      <h2>
-        {habit.name} - Days in Month: {daysInMonth}
-      </h2>
+    <div className="flex items-center m-3  bg-green-200">
+      <div className="w-80 p-4">
+        <h2>
+          {habit.name} {habit.days}
+        </h2>
+      </div>
+
+      <div className="w-5 h-5 bg-white"></div>
     </div>
   );
 };

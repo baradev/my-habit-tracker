@@ -1,15 +1,17 @@
 import HabitLine from "./HabitLine";
+import dayjs from "dayjs";
 
 interface Habit {
   color: string;
   name: string;
   id: string;
-  date: string;
+  days: number;
 }
 
 interface HabitData {
   Habits: Habit[];
 }
+const daysInMonth = dayjs().daysInMonth();
 
 const habitData: HabitData = {
   Habits: [
@@ -17,25 +19,25 @@ const habitData: HabitData = {
       color: "green-200",
       name: "Sugar free",
       id: "1",
-      date: "2024-02-2",
+      days: daysInMonth,
     },
     {
       color: "indigo-200",
       name: "Going to bed early",
       id: "2",
-      date: "2023-11-30",
+      days: daysInMonth,
     },
     {
       color: "rose-200",
       name: "Exercising",
       id: "3",
-      date: "2023-11-30",
+      days: daysInMonth,
     },
     {
       color: "amber-200",
       name: "Read a book",
       id: "4",
-      date: "2023-11-30",
+      days: daysInMonth,
     },
   ],
 };
