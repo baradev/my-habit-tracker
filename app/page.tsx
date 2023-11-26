@@ -11,7 +11,7 @@ interface Habit {
 interface HabitData {
   Habits: Habit[];
 }
-const daysInMonth = dayjs().daysInMonth();
+const daysInMonth = dayjs("2024-02-25").daysInMonth();
 
 const habitData: HabitData = {
   Habits: [
