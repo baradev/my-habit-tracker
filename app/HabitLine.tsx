@@ -12,7 +12,7 @@ interface HabitLineProps {
 
 const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
   return (
-    <div className={`p-5 bg-${habit.color} mt-8`}>
+    <div className={`p-4 bg-${habit.color} mt-3`}>
       <h2>{habit.name}</h2>
     </div>
   );

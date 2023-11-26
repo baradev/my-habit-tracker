@@ -38,10 +38,10 @@ const habitData: HabitData = {
 export default function Home() {
   return (
     <main>
-      <h1>Habit tracker</h1>
+      <h1 className={"mb-8"}>Habit tracker</h1>
 
       <div>
-        {habitData.Habits.map((habit) => (
+        {habitData.Habits.map((habit: Habit) => (
           <HabitLine key={habit.id} habit={habit} />
         ))}
       </div>
