@@ -46,7 +46,9 @@ export default function Home() {
   return (
     <main>
       <div>
-        <h2>Month</h2>
+        <div className="flex flex-row-reverse mr-20">
+          <h2>Month</h2>
+        </div>
         {habitData.Habits.map((habit: Habit) => (
           <HabitLine key={habit.id} habit={habit} />
         ))}
