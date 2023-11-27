@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HabitLine from "./HabitLine";
 import dayjs from "dayjs";
 
@@ -17,8 +17,19 @@ interface HabitData {
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
 
+  useEffect(() => {
+    // Retrieve the last saved month from localStorage, default to the current month
+    const savedMonth = localStorage.getItem("currentMonth");
+    const initialMonth = savedMonth ? dayjs(savedMonth) : dayjs();
+    setCurrentMonth(initialMonth);
+  }, []); // Empty dependency array ensures this effect runs only once on mount
+
   const changeMonth = (increment: number) => {
-    setCurrentMonth(currentMonth.add(increment, "month"));
+    const newMonth = currentMonth.add(increment, "month");
+
+    setCurrentMonth(newMonth);
+
+    localStorage.setItem("currentMonth", newMonth.format());
   };
 
   const monthYear = currentMonth.format("MMMM YYYY");
