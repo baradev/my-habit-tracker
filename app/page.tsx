@@ -11,7 +11,9 @@ interface Habit {
 interface HabitData {
   Habits: Habit[];
 }
-const daysInMonth = dayjs().daysInMonth();
+
+const monthYear = dayjs("2023-12-12").format("MMMM YYYY");
+const daysInMonth = dayjs(monthYear, "MMMM YYYY").daysInMonth();
 
 const habitData: HabitData = {
   Habits: [
@@ -47,7 +49,7 @@ export default function Home() {
     <main>
       <div>
         <div className="flex flex-row-reverse mr-20">
-          <h2>Month</h2>
+          <h2>{monthYear}</h2>
         </div>
         {habitData.Habits.map((habit: Habit) => (
           <HabitLine key={habit.id} habit={habit} />
