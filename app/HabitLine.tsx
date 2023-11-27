@@ -23,7 +23,7 @@ const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
     return daysArray.map((day) => (
       <div
         key={day}
-        className="flex items-center justify-center w-6 h-6 bg-white m-1"
+        className="flex items-center justify-center w-6 h-6 bg-white m-2"
       >
         <span className="text-gray-400">{day}</span>
       </div>
@@ -31,13 +31,10 @@ const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
   };
 
   return (
-    <div className="flex items-center m-3 bg-green-200">
+    <div className="flex items-center m-3 bg-green-200 mr-20">
       <div className="w-80 p-4">
-        <h2>
-          {habit.name} {habit.days}
-        </h2>
+        <h2>{habit.name}</h2>
       </div>
-
       <div className="flex">{renderSquares()}</div>
     </div>
   );

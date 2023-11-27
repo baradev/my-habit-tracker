@@ -11,7 +11,7 @@ interface Habit {
 interface HabitData {
   Habits: Habit[];
 }
-const daysInMonth = dayjs("2024-02-25").daysInMonth();
+const daysInMonth = dayjs().daysInMonth();
 
 const habitData: HabitData = {
   Habits: [
@@ -45,9 +45,8 @@ const habitData: HabitData = {
 export default function Home() {
   return (
     <main>
-      <h1 className={"mb-8"}>Habit tracker</h1>
-
       <div>
+        <h2>Month</h2>
         {habitData.Habits.map((habit: Habit) => (
           <HabitLine key={habit.id} habit={habit} />
         ))}
