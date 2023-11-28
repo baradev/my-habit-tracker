@@ -1,4 +1,4 @@
-// HabitLine.tsx
+"use client";
 import React, { useState, useEffect } from "react";
 import Record from "./Record";
 
@@ -16,29 +16,32 @@ interface HabitLineProps {
 const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
   // Load selected days from local storage on component mount
   const initialSelectedDays = JSON.parse(
-    localStorage.getItem("selectedDays") || "[]"
+    localStorage.getItem(`selectedDays-${habit.id}`) || "[]"
   );
   const [selectedDays, setSelectedDays] =
     useState<number[]>(initialSelectedDays);
 
   useEffect(() => {
     // Save selected days to local storage whenever the selection changes
-    localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
-  }, [selectedDays]);
+    localStorage.setItem(
+      `selectedDays-${habit.id}`,
+      JSON.stringify(selectedDays)
+    );
+  }, [selectedDays, habit.id]);
 
   const handleSquareClick = (day: number) => {
     // Toggle the selected state of the day
-    if (selectedDays.includes(day)) {
-      setSelectedDays(
-        selectedDays.filter((selectedDay) => selectedDay !== day)
-      );
-    } else {
-      setSelectedDays([...selectedDays, day]);
-    }
+    setSelectedDays((prevSelectedDays) => {
+      if (prevSelectedDays.includes(day)) {
+        return prevSelectedDays.filter((selectedDay) => selectedDay !== day);
+      } else {
+        return [...prevSelectedDays, day];
+      }
+    });
   };
 
   return (
-    <div className="flex items-center m-3 bg-green-200 mr-20">
+    <div className={`flex items-center m-3 bg-lime-100 mr-20`}>
       <div className="w-80 p-4">
         <h2>{habit.name}</h2>
       </div>

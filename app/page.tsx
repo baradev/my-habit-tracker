@@ -9,9 +9,19 @@ interface Habit {
   id: string;
   days: number;
 }
-
 interface HabitData {
   Habits: Habit[];
+}
+
+interface Record {
+  id: string;
+  habit_id: string;
+  date: number;
+  isDone: boolean;
+}
+
+interface RecordData {
+  Records: Record[];
 }
 
 export default function Home() {
