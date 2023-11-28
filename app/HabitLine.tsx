@@ -1,4 +1,6 @@
-import React from "react";
+// HabitLine.tsx
+import React, { useState, useEffect } from "react";
+import Record from "./Record";
 
 interface Habit {
   color: string;
@@ -12,22 +14,27 @@ interface HabitLineProps {
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
-  const renderSquares = () => {
-    // Create an array with 'habit.days' elements
-    const daysArray = Array.from(
-      { length: habit.days },
-      (_, index) => index + 1
-    );
+  // Load selected days from local storage on component mount
+  const initialSelectedDays = JSON.parse(
+    localStorage.getItem("selectedDays") || "[]"
+  );
+  const [selectedDays, setSelectedDays] =
+    useState<number[]>(initialSelectedDays);
 
-    // Map over the array to generate the squares with numbers
-    return daysArray.map((day) => (
-      <div
-        key={day}
-        className="flex items-center justify-center w-6 h-6 bg-white m-2"
-      >
-        <span className="text-gray-400">{day}</span>
-      </div>
-    ));
+  useEffect(() => {
+    // Save selected days to local storage whenever the selection changes
+    localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
+  }, [selectedDays]);
+
+  const handleSquareClick = (day: number) => {
+    // Toggle the selected state of the day
+    if (selectedDays.includes(day)) {
+      setSelectedDays(
+        selectedDays.filter((selectedDay) => selectedDay !== day)
+      );
+    } else {
+      setSelectedDays([...selectedDays, day]);
+    }
   };
 
   return (
@@ -35,7 +42,17 @@ const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
       <div className="w-80 p-4">
         <h2>{habit.name}</h2>
       </div>
-      <div className="flex">{renderSquares()}</div>
+      <div className="flex">
+        {/* Map over the days and render the Record component for each day */}
+        {Array.from({ length: habit.days }, (_, index) => (
+          <Record
+            key={index + 1}
+            day={index + 1}
+            isSelected={selectedDays.includes(index + 1)}
+            onSquareClick={() => handleSquareClick(index + 1)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
