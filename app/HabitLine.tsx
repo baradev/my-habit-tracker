@@ -1,4 +1,5 @@
-// HabitLine.tsx
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Record from "./Record";
 
@@ -14,17 +15,22 @@ interface HabitLineProps {
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
+  // Check if we are on the client side
+  const isClient = typeof window !== "undefined";
+
   // Load selected days from local storage on component mount
-  const initialSelectedDays = JSON.parse(
-    localStorage.getItem("selectedDays") || "[]"
-  );
+  const initialSelectedDays = isClient
+    ? JSON.parse(localStorage.getItem("selectedDays") || "[]")
+    : [];
   const [selectedDays, setSelectedDays] =
     useState<number[]>(initialSelectedDays);
 
   useEffect(() => {
     // Save selected days to local storage whenever the selection changes
-    localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
-  }, [selectedDays]);
+    if (isClient) {
+      localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
+    }
+  }, [selectedDays, isClient]);
 
   const handleSquareClick = (day: number) => {
     // Toggle the selected state of the day
