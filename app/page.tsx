@@ -42,6 +42,11 @@ export default function Home() {
     localStorage.setItem("currentMonth", newMonth.format());
   };
 
+  const resetToCurrentDay = () => {
+    setCurrentMonth(dayjs());
+    localStorage.setItem("currentMonth", dayjs().format());
+  };
+
   const monthYear = currentMonth.format("MMMM YYYY");
   const daysInMonth = currentMonth.daysInMonth();
 
@@ -85,6 +90,9 @@ export default function Home() {
             <button className="join-item btn">{monthYear}</button>
             <button className="join-item btn" onClick={() => changeMonth(1)}>
               »
+            </button>
+            <button className="join-item btn" onClick={resetToCurrentDay}>
+              Today
             </button>
           </div>
         </div>
