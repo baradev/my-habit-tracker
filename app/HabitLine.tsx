@@ -1,43 +1,24 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Record from "./Record";
-
-interface Habit {
-  color: string;
-  name: string;
-  id: string;
-  days: number;
-}
+import dayjs from "dayjs";
+import { IHabit, IRecord } from "./page";
 
 interface HabitLineProps {
-  habit: Habit;
+  habit: IHabit;
+  currentMonth: dayjs.Dayjs;
+  checkedRecords: IRecord[];
 }
 
-const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
-  // Load selected days from local storage on component mount
-  const initialSelectedDays = JSON.parse(
-    localStorage.getItem(`selectedDays-${habit.id}`) || "[]"
-  );
-  const [selectedDays, setSelectedDays] =
-    useState<number[]>(initialSelectedDays);
-
-  useEffect(() => {
-    // Save selected days to local storage whenever the selection changes
-    localStorage.setItem(
-      `selectedDays-${habit.id}`,
-      JSON.stringify(selectedDays)
-    );
-  }, [selectedDays, habit.id]);
+const HabitLine: React.FC<HabitLineProps> = ({
+  habit,
+  currentMonth,
+  checkedRecords,
+}) => {
+  const daysInMonth = currentMonth.daysInMonth();
 
   const handleSquareClick = (day: number) => {
-    // Toggle the selected state of the day
-    setSelectedDays((prevSelectedDays) => {
-      if (prevSelectedDays.includes(day)) {
-        return prevSelectedDays.filter((selectedDay) => selectedDay !== day);
-      } else {
-        return [...prevSelectedDays, day];
-      }
-    });
+    console.log(`Clicked on day ${day}`);
   };
 
   return (
@@ -47,11 +28,16 @@ const HabitLine: React.FC<HabitLineProps> = ({ habit }) => {
       </div>
       <div className="flex">
         {/* Map over the days and render the Record component for each day */}
-        {Array.from({ length: habit.days }, (_, index) => (
+        {Array.from({ length: daysInMonth }, (_, index) => (
           <Record
             key={index + 1}
             day={index + 1}
-            isSelected={selectedDays.includes(index + 1)}
+            isSelected={checkedRecords.some(
+              (record: IRecord) =>
+                record.date ===
+                  currentMonth.date(index + 1).format("YYYY-MM-DD") &&
+                record.isDone === true
+            )}
             onSquareClick={() => handleSquareClick(index + 1)}
           />
         ))}
