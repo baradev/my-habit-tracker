@@ -26,7 +26,6 @@ interface IRecordData {
 
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
-
   useEffect(() => {
     // Retrieve the last saved month from localStorage, default to the current month
     const savedMonth = localStorage.getItem("currentMonth");
@@ -34,47 +33,7 @@ export default function Home() {
     setCurrentMonth(initialMonth);
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
-  const changeMonth = (increment: number) => {
-    const newMonth = currentMonth.add(increment, "month");
-
-    setCurrentMonth(newMonth);
-
-    localStorage.setItem("currentMonth", newMonth.format());
-  };
-
-  const resetToCurrentDay = () => {
-    setCurrentMonth(dayjs());
-    localStorage.setItem("currentMonth", dayjs().format());
-  };
-
-  const monthYear = currentMonth.format("MMMM YYYY");
-
-  const habitData: IHabitData = {
-    Habits: [
-      {
-        color: "green-200",
-        name: "Sugar free",
-        id: "1",
-      },
-      {
-        color: "indigo-200",
-        name: "Going to bed early",
-        id: "2",
-      },
-      {
-        color: "rose-200",
-        name: "Exercising",
-        id: "3",
-      },
-      {
-        color: "amber-200",
-        name: "Read a book",
-        id: "4",
-      },
-    ],
-  };
-
-  const recordData: IRecordData = {
+  const defaultRecordData: IRecordData = {
     Records: [
       {
         id: uuidv4(),
@@ -106,6 +65,88 @@ export default function Home() {
         date: "2023-12-14",
         isDone: true,
       },
+      {
+        id: uuidv4(),
+        habitId: "4",
+        date: "2023-12-07",
+        isDone: true,
+      },
+      {
+        id: uuidv4(),
+        habitId: "4",
+        date: "2023-12-08",
+        isDone: true,
+      },
+      {
+        id: uuidv4(),
+        habitId: "4",
+        date: "2023-10-01",
+        isDone: false,
+      },
+    ],
+  };
+
+  const [recordData, setRecordData] = useState<IRecord[]>(
+    defaultRecordData.Records
+  );
+
+  const changeMonth = (increment: number) => {
+    const newMonth = currentMonth.add(increment, "month");
+
+    setCurrentMonth(newMonth);
+
+    localStorage.setItem("currentMonth", newMonth.format());
+  };
+
+  const resetToCurrentDay = () => {
+    setCurrentMonth(dayjs());
+    localStorage.setItem("currentMonth", dayjs().format());
+  };
+
+  const monthYear = currentMonth.format("MMMM YYYY");
+
+  const addRecordForSelectedDay = (habitId: string, date: string) => {
+    // Check if a record already exists for the selected day and habit
+    const existingRecord = recordData.find(
+      (record) => record.habitId === habitId && record.date === date
+    );
+
+    // If the record doesn't exist, add a new record for the selected day
+    if (!existingRecord) {
+      const newRecord: IRecord = {
+        id: uuidv4(),
+        habitId,
+        date,
+        isDone: true, // You can set the initial value of isDone as needed
+      };
+
+      // Update the state with the new record
+      setRecordData((recordData: IRecord[]) => [...recordData, newRecord]);
+    }
+  };
+
+  const habitData: IHabitData = {
+    Habits: [
+      {
+        color: "green-200",
+        name: "Sugar free",
+        id: "1",
+      },
+      {
+        color: "indigo-200",
+        name: "Going to bed early",
+        id: "2",
+      },
+      {
+        color: "rose-200",
+        name: "Exercising",
+        id: "3",
+      },
+      {
+        color: "amber-200",
+        name: "Read a book",
+        id: "4",
+      },
     ],
   };
 
@@ -127,14 +168,12 @@ export default function Home() {
           </div>
         </div>
         {habitData.Habits.map((habit: IHabit) => {
-          const checkedRecords = recordData.Records.filter(
-            (record: IRecord) => {
-              return (
-                record.habitId === habit.id &&
-                record.date.includes(currentMonth.format("YYYY-MM"))
-              );
-            }
-          );
+          const checkedRecords = recordData.filter((record: IRecord) => {
+            return (
+              record.habitId === habit.id &&
+              record.date.includes(currentMonth.format("YYYY-MM"))
+            );
+          });
 
           return (
             <HabitLine
