@@ -40,56 +40,7 @@ export default function Home() {
   }, []);
 
   const defaultRecordData: IRecordData = {
-    Records: [
-      {
-        id: uuidv4(),
-        habitId: "1",
-        date: "2023-12-01",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "1",
-        date: "2023-12-02",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "1",
-        date: "2023-12-03",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "3",
-        date: "2023-12-13",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "3",
-        date: "2023-12-14",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "4",
-        date: "2023-12-07",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "4",
-        date: "2023-12-08",
-        isDone: true,
-      },
-      {
-        id: uuidv4(),
-        habitId: "4",
-        date: "2023-10-01",
-        isDone: false,
-      },
-    ],
+    Records: [],
   };
 
   const [recordData, setRecordData] = useState<IRecord[]>(
