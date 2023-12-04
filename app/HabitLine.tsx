@@ -8,17 +8,22 @@ interface HabitLineProps {
   habit: IHabit;
   currentMonth: dayjs.Dayjs;
   checkedRecords: IRecord[];
+  addRecordForSelectedDay: (habitId: string, date: string) => void;
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({
   habit,
   currentMonth,
   checkedRecords,
+  addRecordForSelectedDay,
 }) => {
   const daysInMonth = currentMonth.daysInMonth();
 
   const handleSquareClick = (day: number) => {
-    console.log(`Clicked on day ${day}`);
+    const date = currentMonth.date(day).format("YYYY-MM-DD");
+    const habitId = habit.id;
+
+    addRecordForSelectedDay(habitId, date);
   };
 
   return (

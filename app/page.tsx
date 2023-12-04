@@ -122,6 +122,10 @@ export default function Home() {
 
       // Update the state with the new record
       setRecordData((recordData: IRecord[]) => [...recordData, newRecord]);
+      localStorage.setItem(
+        "recordData",
+        JSON.stringify([...recordData, newRecord])
+      );
     }
   };
 
@@ -181,6 +185,7 @@ export default function Home() {
               habit={habit}
               currentMonth={currentMonth}
               checkedRecords={checkedRecords}
+              addRecordForSelectedDay={addRecordForSelectedDay}
             />
           );
         })}
