@@ -112,22 +112,34 @@ export default function Home() {
   const monthYear = currentMonth.format("MMMM YYYY");
 
   const addRecordForSelectedDay = (habitId: string, date: string) => {
-    // Check if a record already exists for the selected day and habit
-    const existingRecord = recordData.find(
+    const existingRecordIndex = recordData.findIndex(
       (record) => record.habitId === habitId && record.date === date
     );
 
-    // If the record doesn't exist, add a new record for the selected day
-    if (!existingRecord) {
+    if (existingRecordIndex !== -1) {
+      // If the record exists, toggle the isDone property and update the color
+      const updatedRecordData = [...recordData];
+      updatedRecordData[existingRecordIndex] = {
+        ...updatedRecordData[existingRecordIndex],
+        isDone: !updatedRecordData[existingRecordIndex].isDone,
+      };
+
+      setRecordData(updatedRecordData);
+
+      // Update localStorage with the updated records
+      localStorage.setItem("recordData", JSON.stringify(updatedRecordData));
+    } else {
+      // If the record doesn't exist, add a new record for the selected day
       const newRecord: IRecord = {
         id: uuidv4(),
         habitId,
         date,
-        isDone: true, // You can set the initial value of isDone as needed
+        isDone: true,
       };
 
-      // Update the state with the new record
       setRecordData((prevRecords) => [...prevRecords, newRecord]);
+
+      // Update localStorage with the updated records
       localStorage.setItem(
         "recordData",
         JSON.stringify([...recordData, newRecord])

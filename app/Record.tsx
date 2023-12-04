@@ -11,9 +11,16 @@ const Record: React.FC<RecordProps> = ({ day, isSelected, onSquareClick }) => {
     backgroundColor: isSelected ? "blue" : "white",
   };
 
+  const handleClick = () => {
+    onSquareClick(); // Call the provided onSquareClick function
+
+    // You can also update the color and isDone state in this component
+    // based on the isSelected prop if you want immediate visual feedback
+  };
+
   return (
     <div
-      onClick={onSquareClick}
+      onClick={handleClick} // Use handleClick instead of onSquareClick directly
       style={squareStyle}
       className="flex items-center justify-center w-6 h-6 bg-white m-2 cursor-pointer"
     >
