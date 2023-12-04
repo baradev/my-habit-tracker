@@ -33,6 +33,12 @@ export default function Home() {
     setCurrentMonth(initialMonth);
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
+  useEffect(() => {
+    const savedRecords = localStorage.getItem("recordData");
+    const initialRecords = savedRecords ? JSON.parse(savedRecords) : [];
+    setRecordData(initialRecords);
+  }, []);
+
   const defaultRecordData: IRecordData = {
     Records: [
       {
@@ -121,7 +127,7 @@ export default function Home() {
       };
 
       // Update the state with the new record
-      setRecordData((recordData: IRecord[]) => [...recordData, newRecord]);
+      setRecordData((prevRecords) => [...prevRecords, newRecord]);
       localStorage.setItem(
         "recordData",
         JSON.stringify([...recordData, newRecord])
