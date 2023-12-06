@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { IHabit, IRecord } from "./page";
 
 interface HabitLineProps {
+  color: string;
   habit: IHabit;
   currentMonth: dayjs.Dayjs;
   checkedRecords: IRecord[];
@@ -12,6 +13,7 @@ interface HabitLineProps {
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({
+  color,
   habit,
   currentMonth,
   checkedRecords,
@@ -27,7 +29,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
   };
 
   return (
-    <div className={`flex items-center m-3 bg-lime-100 mr-20`}>
+    <div className={`flex items-center m-3 ${color} mr-20`}>
       <div className="w-80 p-4">
         <h2>{habit.name}</h2>
       </div>

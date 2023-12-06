@@ -101,22 +101,22 @@ export default function Home() {
   const habitData: IHabitData = {
     Habits: [
       {
-        color: "green-200",
+        color: "bg-green-200",
         name: "Sugar free",
         id: "1",
       },
       {
-        color: "indigo-200",
+        color: "bg-indigo-200",
         name: "Going to bed early",
         id: "2",
       },
       {
-        color: "rose-200",
+        color: "bg-rose-200",
         name: "Exercising",
         id: "3",
       },
       {
-        color: "amber-200",
+        color: "bg-amber-200",
         name: "Read a book",
         id: "4",
       },
@@ -150,6 +150,7 @@ export default function Home() {
 
           return (
             <HabitLine
+              color={habit.color}
               key={habit.id}
               habit={habit}
               currentMonth={currentMonth}
