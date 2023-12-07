@@ -1,5 +1,4 @@
-"use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Record from "./Record";
 import dayjs from "dayjs";
 import { IHabit, IRecord } from "./page";
@@ -29,12 +28,11 @@ const HabitLine: React.FC<HabitLineProps> = ({
   };
 
   return (
-    <div className={`flex items-center m-3 ${color} mr-20`}>
-      <div className="w-80 p-4">
+    <div className={`flex flex-wrap justify-between m-3 ${color}`}>
+      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center">
         <h2>{habit.name}</h2>
       </div>
-      <div className="flex">
-        {/* Map over the days and render the Record component for each day */}
+      <div className="flex flex-wrap">
         {Array.from({ length: daysInMonth }, (_, index) => (
           <Record
             key={index + 1}
