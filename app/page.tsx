@@ -131,8 +131,8 @@ export default function Home() {
   return (
     <main>
       <div>
-        <div className="flex flex-row-reverse">
-          <div className="join flex mr-20">
+        <div className={`flex flex-row-reverse m-3 mx-auto max-w-screen-xl`}>
+          <div className="join flex">
             <button className="join-item btn" onClick={() => changeMonth(-1)}>
               «
             </button>

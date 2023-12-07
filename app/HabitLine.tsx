@@ -28,12 +28,14 @@ const HabitLine: React.FC<HabitLineProps> = ({
   };
 
   return (
-    <div className={`flex flex-wrap justify-between m-3 ${color}`}>
-      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center max-w-screen-xl xl:justify-start">
+    <div
+      className={`flex flex-wrap justify-between m-3 ${color} mx-auto max-w-screen-xl`}
+    >
+      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         <h2 className="ml-2 font-bold">{habit.name}</h2>
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
-        <div className="flex flex-wrap justify-end">
+        <div className="flex flex-wrap justify-start">
           {Array.from({ length: daysInMonth }, (_, index) => (
             <Record
               key={index + 1}
