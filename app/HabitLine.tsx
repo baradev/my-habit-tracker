@@ -32,21 +32,23 @@ const HabitLine: React.FC<HabitLineProps> = ({
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center max-w-screen-xl xl:justify-start">
         <h2 className="ml-2 font-bold">{habit.name}</h2>
       </div>
-      <div className="flex flex-wrap">
-        {Array.from({ length: daysInMonth }, (_, index) => (
-          <Record
-            key={index + 1}
-            day={index + 1}
-            isSelected={checkedRecords.some(
-              (record: IRecord) =>
-                record.date ===
-                  currentMonth.date(index + 1).format("YYYY-MM-DD") &&
-                record.isDone === true
-            )}
-            onSquareClick={() => handleSquareClick(index + 1)}
-            colorFilled={habit.colorFilled}
-          />
-        ))}
+      <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
+        <div className="flex flex-wrap">
+          {Array.from({ length: daysInMonth }, (_, index) => (
+            <Record
+              key={index + 1}
+              day={index + 1}
+              isSelected={checkedRecords.some(
+                (record: IRecord) =>
+                  record.date ===
+                    currentMonth.date(index + 1).format("YYYY-MM-DD") &&
+                  record.isDone === true
+              )}
+              onSquareClick={() => handleSquareClick(index + 1)}
+              colorFilled={habit.colorFilled}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
