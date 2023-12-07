@@ -33,7 +33,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
         <h2 className="ml-2 font-bold">{habit.name}</h2>
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-end">
           {Array.from({ length: daysInMonth }, (_, index) => (
             <Record
               key={index + 1}
