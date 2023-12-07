@@ -46,6 +46,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
                 record.isDone === true
             )}
             onSquareClick={() => handleSquareClick(index + 1)}
+            colorFilled={habit.colorFilled}
           />
         ))}
       </div>
