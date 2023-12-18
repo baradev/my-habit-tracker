@@ -25,6 +25,35 @@ interface IRecordData {
   Records: IRecord[];
 }
 
+export const habitData: IHabitData = {
+  Habits: [
+    {
+      color: "bg-green-200",
+      colorFilled: "#84CC16",
+      name: "Sugar free",
+      id: "1",
+    },
+    {
+      color: "bg-indigo-200",
+      colorFilled: "#6366f1",
+      name: "Going to bed early",
+      id: "2",
+    },
+    {
+      color: "bg-rose-200",
+      colorFilled: "#f43f5e",
+      name: "Exercising",
+      id: "3",
+    },
+    {
+      color: "bg-amber-200",
+      colorFilled: "#f59e0b",
+      name: "Read a book",
+      id: "4",
+    },
+  ],
+};
+
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   useEffect(() => {
@@ -97,35 +126,6 @@ export default function Home() {
         JSON.stringify([...recordData, newRecord])
       );
     }
-  };
-
-  const habitData: IHabitData = {
-    Habits: [
-      {
-        color: "bg-green-200",
-        colorFilled: "#84CC16",
-        name: "Sugar free",
-        id: "1",
-      },
-      {
-        color: "bg-indigo-200",
-        colorFilled: "#6366f1",
-        name: "Going to bed early",
-        id: "2",
-      },
-      {
-        color: "bg-rose-200",
-        colorFilled: "#f43f5e",
-        name: "Exercising",
-        id: "3",
-      },
-      {
-        color: "bg-amber-200",
-        colorFilled: "#f59e0b",
-        name: "Read a book",
-        id: "4",
-      },
-    ],
   };
 
   return (
