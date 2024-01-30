@@ -96,6 +96,24 @@ export default function Home() {
     })
   }
 
+  const deleteHabit = (habitId: string) => {
+    // Filter out the habit to be deleted from the habitList
+    const updatedHabitList = habitList.filter((habit) => habit.id !== habitId)
+
+    // Update the habit list in state
+    setHabitList(updatedHabitList)
+
+    // Update localStorage with the updated habit list
+    localStorage.setItem('habitData', JSON.stringify(updatedHabitList))
+
+    // Optionally, you can also delete associated records if needed
+    const updatedRecordData = recordData.filter(
+      (record) => record.habitId !== habitId
+    )
+    setRecordData(updatedRecordData)
+    localStorage.setItem('recordData', JSON.stringify(updatedRecordData))
+  }
+
   const addRecordForSelectedDay = (habitId: string, date: string) => {
     const existingRecordIndex = recordData.findIndex(
       (record) => record.habitId === habitId && record.date === date
@@ -159,6 +177,7 @@ export default function Home() {
               currentMonth={currentMonth}
               checkedRecords={checkedRecords}
               addRecordForSelectedDay={addRecordForSelectedDay}
+              onDeleteHabit={() => deleteHabit(habit.id)}
             />
           )
         })}

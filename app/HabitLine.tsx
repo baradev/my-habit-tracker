@@ -9,6 +9,7 @@ interface HabitLineProps {
   currentMonth: dayjs.Dayjs
   checkedRecords: IRecord[]
   addRecordForSelectedDay: (habitId: string, date: string) => void
+  onDeleteHabit: () => void
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({
@@ -17,6 +18,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
   currentMonth,
   checkedRecords,
   addRecordForSelectedDay,
+  onDeleteHabit,
 }) => {
   const daysInMonth = currentMonth.daysInMonth()
 
@@ -32,13 +34,16 @@ const HabitLine: React.FC<HabitLineProps> = ({
     setHabitName(event.target.value)
   }
 
+  const handleDeleteClick = () => {
+    onDeleteHabit()
+  }
+
   const handleSquareClick = (day: number) => {
     const date = currentMonth.date(day).format('YYYY-MM-DD')
     const habitId = habit.id
 
     addRecordForSelectedDay(habitId, date)
   }
-
   // Step 3: Update local storage when habit name changes or component unmounts
   useEffect(() => {
     localStorage.setItem(`habitName-${habit.id}`, habitName)
@@ -60,6 +65,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
           {/* Step 2: Update habit name */}
           <input type="text" value={habitName} onChange={handleNameChange} />
         </h2>
+        <button onClick={handleDeleteClick}>Delete</button>
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
         <div className="flex flex-wrap justify-start">
