@@ -1,132 +1,130 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import HabitLine from "./HabitLine";
-import dayjs from "dayjs";
-import { v4 as uuidv4 } from "uuid";
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import HabitLine from './HabitLine'
+import dayjs from 'dayjs'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface IHabit {
-  color: string;
-  colorFilled: string;
-  name: string;
-  id: string;
-}
-interface IHabitData {
-  Habits: IHabit[];
+  color: string
+  colorFilled: string
+  name: string
+  id: string
 }
 
 export interface IRecord {
-  id: string;
-  habitId: string;
-  date: string;
-  isDone: boolean;
+  id: string
+  habitId: string
+  date: string
+  isDone: boolean
 }
 
 interface IRecordData {
-  Records: IRecord[];
+  Records: IRecord[]
 }
 
-export const habitData: IHabitData = {
-  Habits: [
-    {
-      color: "bg-green-200",
-      colorFilled: "#84CC16",
-      name: "Sugar free",
-      id: "1",
-    },
-    {
-      color: "bg-indigo-200",
-      colorFilled: "#6366f1",
-      name: "Going to bed early",
-      id: "2",
-    },
-    {
-      color: "bg-rose-200",
-      colorFilled: "#f43f5e",
-      name: "Exercising",
-      id: "3",
-    },
-    {
-      color: "bg-amber-200",
-      colorFilled: "#f59e0b",
-      name: "Read a book",
-      id: "4",
-    },
-  ],
-};
-
 export default function Home() {
-  const [currentMonth, setCurrentMonth] = useState(dayjs());
-  useEffect(() => {
-    // Retrieve the last saved month from localStorage, default to the current month
-    const savedMonth = localStorage.getItem("currentMonth");
-    const initialMonth = savedMonth ? dayjs(savedMonth) : dayjs();
-    setCurrentMonth(initialMonth);
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  const [currentMonth, setCurrentMonth] = useState(dayjs())
 
   useEffect(() => {
-    const savedRecords = localStorage.getItem("recordData");
-    const initialRecords = savedRecords ? JSON.parse(savedRecords) : [];
-    setRecordData(initialRecords);
-  }, []);
+    const savedMonth = localStorage.getItem('currentMonth')
+    const initialMonth = savedMonth ? dayjs(savedMonth) : dayjs()
+    setCurrentMonth(initialMonth)
+  }, [])
+
+  useEffect(() => {
+    const savedRecords = localStorage.getItem('recordData')
+    const initialRecords = savedRecords ? JSON.parse(savedRecords) : []
+    setRecordData(initialRecords)
+  }, [])
+
+  useEffect(() => {
+    const savedHabits = localStorage.getItem('habitData')
+    const initialHabits = savedHabits ? JSON.parse(savedHabits) : []
+    setHabitList(initialHabits)
+  }, [])
 
   const defaultRecordData: IRecordData = {
     Records: [],
-  };
+  }
 
   const [recordData, setRecordData] = useState<IRecord[]>(
     defaultRecordData.Records
-  );
+  )
 
   const changeMonth = (increment: number) => {
-    const newMonth = currentMonth.add(increment, "month");
-
-    setCurrentMonth(newMonth);
-
-    localStorage.setItem("currentMonth", newMonth.format());
-  };
+    const newMonth = currentMonth.add(increment, 'month')
+    setCurrentMonth(newMonth)
+    localStorage.setItem('currentMonth', newMonth.format())
+  }
 
   const resetToCurrentDay = () => {
-    setCurrentMonth(dayjs());
-    localStorage.setItem("currentMonth", dayjs().format());
-  };
+    setCurrentMonth(dayjs())
+    localStorage.setItem('currentMonth', dayjs().format())
+  }
 
-  const monthYear = currentMonth.format("MMMM YYYY");
+  const monthYear = currentMonth.format('MMMM YYYY')
+
+  const [habitList, setHabitList] = useState<IHabit[]>([])
+  const [defaultColors, setDefaultColors] = useState([
+    { color: 'bg-green-200', colorFilled: '#84CC16' },
+    { color: 'bg-indigo-200', colorFilled: '#6366f1' },
+    { color: 'bg-rose-200', colorFilled: '#f43f5e' },
+    { color: 'bg-amber-200', colorFilled: '#f59e0b' },
+  ])
+
+  const addNewHabit = () => {
+    const colorIndex = habitList.length % defaultColors.length
+    const { color, colorFilled } = defaultColors[colorIndex]
+
+    // Create a new habit with default names based on the days of the month
+    const newHabit: IHabit = {
+      color,
+      colorFilled,
+      name: `Day ${currentMonth.daysInMonth() + 1}`, // Adjust the naming pattern as needed
+      id: uuidv4(),
+    }
+
+    // Update habit list in state
+    setHabitList((prevHabits) => {
+      const updatedHabitList = [...prevHabits, newHabit]
+
+      // Update localStorage with the updated habit list
+      localStorage.setItem('habitData', JSON.stringify(updatedHabitList))
+
+      return updatedHabitList
+    })
+  }
 
   const addRecordForSelectedDay = (habitId: string, date: string) => {
     const existingRecordIndex = recordData.findIndex(
       (record) => record.habitId === habitId && record.date === date
-    );
+    )
 
     if (existingRecordIndex !== -1) {
-      // If the record exists, toggle the isDone property and update the color
-      const updatedRecordData = [...recordData];
+      const updatedRecordData = [...recordData]
       updatedRecordData[existingRecordIndex] = {
         ...updatedRecordData[existingRecordIndex],
         isDone: !updatedRecordData[existingRecordIndex].isDone,
-      };
+      }
 
-      setRecordData(updatedRecordData);
-
-      // Update localStorage with the updated records
-      localStorage.setItem("recordData", JSON.stringify(updatedRecordData));
+      setRecordData(updatedRecordData)
+      localStorage.setItem('recordData', JSON.stringify(updatedRecordData))
     } else {
-      // If the record doesn't exist, add a new record for the selected day
       const newRecord: IRecord = {
         id: uuidv4(),
         habitId,
         date,
         isDone: true,
-      };
+      }
 
-      setRecordData((prevRecords) => [...prevRecords, newRecord]);
-
-      // Update localStorage with the updated records
+      setRecordData((prevRecords) => [...prevRecords, newRecord])
       localStorage.setItem(
-        "recordData",
+        'recordData',
         JSON.stringify([...recordData, newRecord])
-      );
+      )
     }
-  };
+  }
 
   return (
     <main>
@@ -145,13 +143,13 @@ export default function Home() {
             </button>
           </div>
         </div>
-        {habitData.Habits.map((habit: IHabit) => {
+        {habitList.map((habit: IHabit) => {
           const checkedRecords = recordData.filter((record: IRecord) => {
             return (
               record.habitId === habit.id &&
-              record.date.includes(currentMonth.format("YYYY-MM"))
-            );
-          });
+              record.date.includes(currentMonth.format('YYYY-MM'))
+            )
+          })
 
           return (
             <HabitLine
@@ -162,9 +160,10 @@ export default function Home() {
               checkedRecords={checkedRecords}
               addRecordForSelectedDay={addRecordForSelectedDay}
             />
-          );
+          )
         })}
       </div>
+      <button onClick={addNewHabit}>Add habit</button>
     </main>
-  );
+  )
 }

@@ -1,16 +1,13 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { BsFlower1 } from "react-icons/bs";
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React from 'react'
+import { BsFlower1 } from 'react-icons/bs'
 
 const NavBar = () => {
-  const currentPath = usePathname();
-  const links = [
-    { label: "Dashboard", href: "/" },
-    { label: "Settings", href: "/settings" },
-  ];
+  const currentPath = usePathname()
+  const links = [{ label: 'Dashboard', href: '/' }]
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center font-medium">
       <Link href="/">
@@ -21,7 +18,7 @@ const NavBar = () => {
           <Link
             key={link.href}
             className={`${
-              link.href === currentPath ? "text-zinc-900" : "text-zinc-500"
+              link.href === currentPath ? 'text-zinc-900' : 'text-zinc-500'
             } hover:text-zinc-800 transition-colors`}
             href={link.href}
           >
@@ -30,7 +27,7 @@ const NavBar = () => {
         ))}
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar
