@@ -84,7 +84,6 @@ export default function Home() {
     { color: 'bg-rose-200', colorFilled: '#f43f5e' },
     { color: 'bg-amber-200', colorFilled: '#f59e0b' },
   ])
-
   const addNewHabit = () => {
     const colorIndex = habitList.length % defaultColors.length
     const { color, colorFilled } = defaultColors[colorIndex]
@@ -92,22 +91,43 @@ export default function Home() {
     const newHabit: IHabit = {
       color,
       colorFilled,
-      name: 'New Habit',
+      name: 'New Habit', // You may want to change this to the desired default name
       id: uuidv4(),
     }
 
-    // Use the current month as part of the localStorage keys
-    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
-
     setHabitList((prevHabits) => {
       const updatedHabitList = [...prevHabits, newHabit]
+
+      // Use the current month as part of the localStorage keys
+      const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
+
       localStorage.setItem(
         habitLocalStorageKey,
         JSON.stringify(updatedHabitList)
       )
+
       return updatedHabitList
     })
   }
+
+  useEffect(() => {
+    // Use the current month as part of the localStorage keys
+    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
+
+    const savedHabits = localStorage.getItem(habitLocalStorageKey)
+    const initialHabits = savedHabits
+      ? JSON.parse(savedHabits)
+      : [
+          {
+            color: 'bg-green-200',
+            colorFilled: '#84CC16',
+            name: 'New Habit',
+            id: uuidv4(),
+          },
+        ]
+
+    setHabitList(initialHabits)
+  }, [currentMonth])
 
   const deleteHabit = (habitId: string) => {
     const updatedHabitList = habitList.filter((habit) => habit.id !== habitId)
