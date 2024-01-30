@@ -129,8 +129,10 @@ export default function Home() {
       JSON.stringify(updatedRecordData)
     )
   }
-
   const addRecordForSelectedDay = (habitId: string, date: string) => {
+    // Use the current month as part of the localStorage keys
+    const recordLocalStorageKey = `recordData_${currentMonth.format('YYYY-MM')}`
+
     const existingRecordIndex = recordData.findIndex(
       (record) => record.habitId === habitId && record.date === date
     )
@@ -155,10 +157,12 @@ export default function Home() {
         isDone: true,
       }
 
-      setRecordData((prevRecords) => [...prevRecords, newRecord])
+      const updatedRecordData = [...recordData, newRecord]
+
+      setRecordData(updatedRecordData)
       localStorage.setItem(
         recordLocalStorageKey,
-        JSON.stringify([...recordData, newRecord])
+        JSON.stringify(updatedRecordData)
       )
     }
   }
