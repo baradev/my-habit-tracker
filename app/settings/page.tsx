@@ -1,93 +1,42 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import { habitData, IHabit } from "../page";
+import React, { useState } from 'react'
 
 export default function Settings() {
-  const [editedHabits, setEditedHabits] = useState<{ [key: string]: IHabit }>(
-    {}
-  );
+  const [habits, setHabits] = useState(['', '', '', '', ''])
 
-  // Load edited habits from localStorage on component mount
-  useEffect(() => {
-    const storedData = localStorage.getItem("editedHabits");
-    if (storedData) {
-      setEditedHabits(JSON.parse(storedData));
-    }
-  }, []);
-
-  // Save edited habits to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("editedHabits", JSON.stringify(editedHabits));
-  }, [editedHabits]);
-
-  const handleNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    habitId: string
-  ) => {
-    setEditedHabits((prevHabits) => ({
-      ...prevHabits,
-      [habitId]: {
-        ...prevHabits[habitId],
-        name: e.target.value,
-      },
-    }));
-  };
-
-  const handleColorChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    habitId: string
-  ) => {
-    setEditedHabits((prevHabits) => ({
-      ...prevHabits,
-      [habitId]: {
-        ...prevHabits[habitId],
-        color: e.target.value,
-      },
-    }));
-  };
-
-  const handleSave = (habitId: string) => {
-    // Save the edited habit data or perform other actions as needed
-    const editedHabit = editedHabits[habitId];
-    console.log("Saving edited habit:", editedHabit);
-  };
+  const handleHabitChange = (index, value) => {
+    const newHabits = [...habits]
+    newHabits[index] = value
+    setHabits(newHabits)
+  }
 
   return (
     <div>
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Habit</th>
             <th>Color</th>
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {habitData.Habits.map((habit) => (
-            <tr key={habit.id}>
+          {habits.map((habit, index) => (
+            <tr key={index}>
               <td>
                 <input
                   type="text"
-                  value={editedHabits[habit.id]?.name || habit.name}
-                  onChange={(e) => handleNameChange(e, habit.id)}
+                  value={habit}
+                  onChange={(e) => handleHabitChange(index, e.target.value)}
                 />
               </td>
-              <td>
-                <input
-                  type="text"
-                  value={editedHabits[habit.id]?.color || habit.color}
-                  onChange={(e) => handleColorChange(e, habit.id)}
-                />
-              </td>
-              <td>
-                <button onClick={() => handleSave(habit.id)}>Save</button>
-                {/* Add other action buttons if needed */}
-              </td>
+              <td>{/* You can add a color input here if needed */}</td>
+              <td>{/* You can add action buttons here if needed */}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  );
+  )
 }
