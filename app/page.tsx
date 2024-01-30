@@ -1,10 +1,11 @@
+// Import necessary libraries and components
 'use client'
-
 import React, { useState, useEffect } from 'react'
 import HabitLine from './HabitLine'
 import dayjs from 'dayjs'
 import { v4 as uuidv4 } from 'uuid'
 
+// Define interfaces for habit and record
 export interface IHabit {
   color: string
   colorFilled: string
@@ -19,10 +20,12 @@ export interface IRecord {
   isDone: boolean
 }
 
+// Interface for the record data
 interface IRecordData {
   Records: IRecord[]
 }
 
+// Home component
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs())
 
@@ -33,16 +36,25 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    const savedRecords = localStorage.getItem('recordData')
-    const initialRecords = savedRecords ? JSON.parse(savedRecords) : []
-    setRecordData(initialRecords)
-  }, [])
-
-  useEffect(() => {
-    const savedHabits = localStorage.getItem('habitData')
+    // Use the current month as part of the localStorage keys
+    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
+    const savedHabits = localStorage.getItem(habitLocalStorageKey)
     const initialHabits = savedHabits ? JSON.parse(savedHabits) : []
     setHabitList(initialHabits)
-  }, [])
+  }, [currentMonth])
+
+  // ...
+
+  useEffect(() => {
+    // Use the current month as part of the localStorage keys
+    const recordLocalStorageKey = `recordData_${currentMonth.format('YYYY-MM')}`
+
+    const savedRecords = localStorage.getItem(recordLocalStorageKey)
+    const initialRecords = savedRecords ? JSON.parse(savedRecords) : []
+    setRecordData(initialRecords)
+  }, [currentMonth])
+
+  // ...
 
   const defaultRecordData: IRecordData = {
     Records: [],
@@ -77,41 +89,45 @@ export default function Home() {
     const colorIndex = habitList.length % defaultColors.length
     const { color, colorFilled } = defaultColors[colorIndex]
 
-    // Create a new habit with default names based on the days of the month
     const newHabit: IHabit = {
       color,
       colorFilled,
-      name: `Day ${currentMonth.daysInMonth() + 1}`, // Adjust the naming pattern as needed
+      name: 'New Habit',
       id: uuidv4(),
     }
 
-    // Update habit list in state
+    // Use the current month as part of the localStorage keys
+    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
+
     setHabitList((prevHabits) => {
       const updatedHabitList = [...prevHabits, newHabit]
-
-      // Update localStorage with the updated habit list
-      localStorage.setItem('habitData', JSON.stringify(updatedHabitList))
-
+      localStorage.setItem(
+        habitLocalStorageKey,
+        JSON.stringify(updatedHabitList)
+      )
       return updatedHabitList
     })
   }
 
   const deleteHabit = (habitId: string) => {
-    // Filter out the habit to be deleted from the habitList
     const updatedHabitList = habitList.filter((habit) => habit.id !== habitId)
-
-    // Update the habit list in state
     setHabitList(updatedHabitList)
 
-    // Update localStorage with the updated habit list
-    localStorage.setItem('habitData', JSON.stringify(updatedHabitList))
+    // Use the current month as part of the localStorage keys
+    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
+    localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabitList))
 
-    // Optionally, you can also delete associated records if needed
     const updatedRecordData = recordData.filter(
       (record) => record.habitId !== habitId
     )
     setRecordData(updatedRecordData)
-    localStorage.setItem('recordData', JSON.stringify(updatedRecordData))
+
+    // Use the current month as part of the localStorage keys
+    const recordLocalStorageKey = `recordData_${currentMonth.format('YYYY-MM')}`
+    localStorage.setItem(
+      recordLocalStorageKey,
+      JSON.stringify(updatedRecordData)
+    )
   }
 
   const addRecordForSelectedDay = (habitId: string, date: string) => {
@@ -127,7 +143,10 @@ export default function Home() {
       }
 
       setRecordData(updatedRecordData)
-      localStorage.setItem('recordData', JSON.stringify(updatedRecordData))
+      localStorage.setItem(
+        recordLocalStorageKey,
+        JSON.stringify(updatedRecordData)
+      )
     } else {
       const newRecord: IRecord = {
         id: uuidv4(),
@@ -138,7 +157,7 @@ export default function Home() {
 
       setRecordData((prevRecords) => [...prevRecords, newRecord])
       localStorage.setItem(
-        'recordData',
+        recordLocalStorageKey,
         JSON.stringify([...recordData, newRecord])
       )
     }
