@@ -82,6 +82,10 @@ export default function Home() {
     { color: 'bg-amber-200', colorFilled: '#f59e0b' },
   ])
   const addNewHabit = () => {
+    if (habitList.length >= 4) {
+      alert("You can't track more than four habits per month")
+      return
+    }
     const colorIndex = habitList.length % defaultColors.length
     const { color, colorFilled } = defaultColors[colorIndex]
 
