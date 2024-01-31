@@ -11,7 +11,6 @@ interface HabitLineProps {
   addRecordForSelectedDay: (habitId: string, date: string) => void
   onDeleteHabit: () => void
 }
-// ... (previous code)
 
 const HabitLine: React.FC<HabitLineProps> = ({
   color,
@@ -23,28 +22,24 @@ const HabitLine: React.FC<HabitLineProps> = ({
 }) => {
   const daysInMonth = currentMonth.daysInMonth()
 
-  // Step 1: Use a centralized habitNames state
-  const [habitNames, setHabitNames] = useState<{ [habitId: string]: string }>(
-    () => {
-      // Retrieve habit names from local storage or set them to the default
-      const storedHabitNames = localStorage.getItem('habitNames')
-      return storedHabitNames ? JSON.parse(storedHabitNames) : {}
-    }
-  )
-
-  // Step 2: Update habit name using the centralized habitNames state
-  const habitName = habitNames[habit.id] || habit.name
+  const [habitName, setHabitName] = useState<string>(() => {
+    // Initialize the habit name from localStorage or use the default habit name
+    const storedHabitNames = localStorage.getItem('habitNames')
+    const habitNames = storedHabitNames ? JSON.parse(storedHabitNames) : {}
+    return habitNames[habit.id] || habit.name || ''
+  })
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // Update the centralized habitNames state
-    setHabitNames((prevHabitNames) => ({
-      ...prevHabitNames,
-      [habit.id]: event.target.value,
-    }))
+    setHabitName(event.target.value)
   }
 
-  const handleDeleteClick = () => {
-    onDeleteHabit()
+  const handleNameBlur = () => {
+    // Save habit name to localStorage when input field loses focus
+    const updatedHabitNames = {
+      ...JSON.parse(localStorage.getItem('habitNames') || '{}'),
+      [habit.id]: habitName,
+    }
+    localStorage.setItem('habitNames', JSON.stringify(updatedHabitNames))
   }
 
   const handleSquareClick = (day: number) => {
@@ -54,26 +49,26 @@ const HabitLine: React.FC<HabitLineProps> = ({
     addRecordForSelectedDay(habitId, date)
   }
 
-  // Step 3: Update local storage when habit names change
-  useEffect(() => {
-    localStorage.setItem('habitNames', JSON.stringify(habitNames))
-  }, [habitNames])
-
   return (
     <div
       className={`flex flex-wrap justify-between m-3 ${color} mx-auto max-w-screen-xl`}
     >
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         <h2 className="ml-2 font-bold">
-          {/* Step 4: Update habit name */}
           <input
             type="text"
             value={habitName}
             onChange={handleNameChange}
+            onBlur={handleNameBlur}
             placeholder="New Habit"
           />
         </h2>
-        <button onClick={handleDeleteClick}>Delete</button>
+        <button
+          onClick={onDeleteHabit}
+          aria-label={`Delete habit ${habitName}`}
+        >
+          Delete
+        </button>
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
         <div className="flex flex-wrap justify-start">
