@@ -91,7 +91,7 @@ export default function Home() {
     const newHabit: IHabit = {
       color,
       colorFilled,
-      name: 'New Habit', // You may want to change this to the desired default name
+      name: '', // You may want to change this to the desired default name
       id: uuidv4(),
     }
 
@@ -121,7 +121,7 @@ export default function Home() {
           {
             color: 'bg-green-200',
             colorFilled: '#84CC16',
-            name: 'New Habit',
+            name: '',
             id: uuidv4(),
           },
         ]

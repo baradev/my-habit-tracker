@@ -66,7 +66,12 @@ const HabitLine: React.FC<HabitLineProps> = ({
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         <h2 className="ml-2 font-bold">
           {/* Step 4: Update habit name */}
-          <input type="text" value={habitName} onChange={handleNameChange} />
+          <input
+            type="text"
+            value={habitName}
+            onChange={handleNameChange}
+            placeholder="New Habit"
+          />
         </h2>
         <button onClick={handleDeleteClick}>Delete</button>
       </div>
