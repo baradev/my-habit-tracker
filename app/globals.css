@@ -15,3 +15,11 @@ body {
   color: rgb(var (--foreground-rgb));
   padding: 1rem;
 }
+
+input::placeholder {
+  padding-left: 10px;
+}
+
+input {
+  margin: 10px;
+}

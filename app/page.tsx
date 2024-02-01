@@ -18,7 +18,6 @@ export interface IRecord {
   isDone: boolean
 }
 
-// Interface for the record data
 interface IRecordData {
   Records: IRecord[]
 }
@@ -83,7 +82,7 @@ export default function Home() {
   ])
   const addNewHabit = () => {
     if (habitList.length >= 4) {
-      alert("You can't track more than four habits per month")
+      alert("You can't track more than 4 habits per month")
       return
     }
     const colorIndex = habitList.length % defaultColors.length

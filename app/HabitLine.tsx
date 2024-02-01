@@ -54,21 +54,13 @@ const HabitLine: React.FC<HabitLineProps> = ({
       className={`flex flex-wrap justify-between m-3 ${color} mx-auto max-w-screen-xl`}
     >
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
-        <h2 className="ml-2 font-bold">
-          <input
-            type="text"
-            value={habitName}
-            onChange={handleNameChange}
-            onBlur={handleNameBlur}
-            placeholder="New Habit"
-          />
-        </h2>
-        <button
-          onClick={onDeleteHabit}
-          aria-label={`Delete habit ${habitName}`}
-        >
-          Delete
-        </button>
+        <input
+          type="text"
+          value={habitName}
+          onChange={handleNameChange}
+          onBlur={handleNameBlur}
+          placeholder="New Habit"
+        />
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
         <div className="flex flex-wrap justify-start">
@@ -86,6 +78,14 @@ const HabitLine: React.FC<HabitLineProps> = ({
               colorFilled={habit.colorFilled}
             />
           ))}
+        </div>
+        <div className={`flex flex-row-reverse mr-4`}>
+          <button
+            onClick={onDeleteHabit}
+            aria-label={`Delete habit ${habitName}`}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
