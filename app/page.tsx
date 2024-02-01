@@ -232,7 +232,14 @@ export default function Home() {
           )
         })}
       </div>
-      <button onClick={addNewHabit}>Add habit</button>
+      <div className={`flex m-3 mx-auto max-w-screen-xl`}>
+        <button
+          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+          onClick={addNewHabit}
+        >
+          Add habit
+        </button>
+      </div>
     </main>
   )
 }

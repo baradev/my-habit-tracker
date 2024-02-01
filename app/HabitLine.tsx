@@ -81,6 +81,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
         </div>
         <div className={`flex flex-row-reverse mr-4`}>
           <button
+            className={'text-gray-400'}
             onClick={onDeleteHabit}
             aria-label={`Delete habit ${habitName}`}
           >
