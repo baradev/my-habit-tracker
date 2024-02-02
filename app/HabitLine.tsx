@@ -1,8 +1,11 @@
-import React, { useState, useEffect, ChangeEvent } from 'react'
+'use client'
+import React, { useState, ChangeEvent } from 'react'
 import Record from './Record'
 import dayjs from 'dayjs'
 import { IHabit, IRecord } from './page'
 
+//defining the prop types for the HabitLine component
+//specifies the expected type for various props
 interface HabitLineProps {
   color: string
   habit: IHabit
@@ -11,7 +14,7 @@ interface HabitLineProps {
   addRecordForSelectedDay: (habitId: string, date: string) => void
   onDeleteHabit: () => void
 }
-
+//functional component
 const HabitLine: React.FC<HabitLineProps> = ({
   color,
   habit,
@@ -20,21 +23,24 @@ const HabitLine: React.FC<HabitLineProps> = ({
   addRecordForSelectedDay,
   onDeleteHabit,
 }) => {
+  //calculates the number of days in the current month
   const daysInMonth = currentMonth.daysInMonth()
 
+  //retrieves the habit name from local storage or default
   const [habitName, setHabitName] = useState<string>(() => {
-    // Initialize the habit name from localStorage or use the default habit name
     const storedHabitNames = localStorage.getItem('habitNames')
     const habitNames = storedHabitNames ? JSON.parse(storedHabitNames) : {}
     return habitNames[habit.id] || habit.name || ''
   })
 
+  //changes the input field when typing = writing will apear = it updates the "habitName"
+  // state when the input value changes
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setHabitName(event.target.value)
   }
 
+  //when the inout field loses focus - it update the habit name in local storage
   const handleNameBlur = () => {
-    // Save habit name to localStorage when input field loses focus
     const updatedHabitNames = {
       ...JSON.parse(localStorage.getItem('habitNames') || '{}'),
       [habit.id]: habitName,
@@ -45,7 +51,6 @@ const HabitLine: React.FC<HabitLineProps> = ({
   const handleSquareClick = (day: number) => {
     const date = currentMonth.date(day).format('YYYY-MM-DD')
     const habitId = habit.id
-
     addRecordForSelectedDay(habitId, date)
   }
 
