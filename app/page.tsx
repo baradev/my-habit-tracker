@@ -186,7 +186,7 @@ export default function Home() {
             <button className="join-item btn" onClick={() => changeMonth(-1)}>
               «
             </button>
-            <button className="join-item btn w-32">{monthYear}</button>
+            <button className="join-item btn w-40">{monthYear}</button>
             <button className="join-item btn" onClick={() => changeMonth(1)}>
               »
             </button>
