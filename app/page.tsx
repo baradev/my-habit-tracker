@@ -186,7 +186,7 @@ export default function Home() {
             <button className="join-item btn" onClick={() => changeMonth(-1)}>
               «
             </button>
-            <button className="join-item btn w">{monthYear}</button>
+            <button className="join-item btn w-32">{monthYear}</button>
             <button className="join-item btn" onClick={() => changeMonth(1)}>
               »
             </button>
@@ -217,10 +217,7 @@ export default function Home() {
         })}
       </div>
       <div className={`flex m-3 mx-auto max-w-screen-xl`}>
-        <button
-          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={addNewHabit}
-        >
+        <button className="btn btn-default" onClick={addNewHabit}>
           Add habit
         </button>
       </div>
