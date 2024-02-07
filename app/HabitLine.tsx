@@ -12,6 +12,7 @@ interface HabitLineProps {
   addRecordForSelectedDay: (habitId: string, date: string) => void
   onDeleteHabit: () => void
   defaultColors: { color: string; colorFilled: string }[]
+  habitList: IHabit[]
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({
@@ -21,6 +22,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
   addRecordForSelectedDay,
   onDeleteHabit,
   defaultColors,
+  habitList,
 }) => {
   const daysInMonth = currentMonth.daysInMonth()
 
@@ -60,8 +62,38 @@ const HabitLine: React.FC<HabitLineProps> = ({
   }
 
   const handleSave = () => {
+    // Save updated habit name to local storage
     handleNameBlur()
+
+    // Update the default colors with the selected background color
+    const updatedColors = defaultColors.map((color) =>
+      color.color === selectedBackgroundColor
+        ? {
+            ...color,
+            color: selectedBackgroundColor,
+            colorFilled: selectedColorFilled,
+          }
+        : color
+    )
+
+    // Save updated colors to local storage
+    localStorage.setItem('defaultColors', JSON.stringify(updatedColors))
+
+    // Toggle edit mode
     toggleEditMode()
+
+    // Save updated habit color to local storage
+    const updatedHabitList = habitList.map((habitItem) =>
+      habitItem.id === habit.id
+        ? {
+            ...habitItem,
+            color: selectedBackgroundColor,
+            colorFilled: selectedColorFilled,
+          }
+        : habitItem
+    )
+    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
+    localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabitList))
   }
 
   const handleBackgroundColorChange = (

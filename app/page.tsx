@@ -1,3 +1,5 @@
+// Home.tsx
+
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -25,6 +27,7 @@ interface IRecordData {
 
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs())
+  const [habitList, setHabitList] = useState<IHabit[]>([]) // Define habitList state
 
   useEffect(() => {
     const savedMonth = localStorage.getItem('currentMonth')
@@ -36,7 +39,7 @@ export default function Home() {
     const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
     const savedHabits = localStorage.getItem(habitLocalStorageKey)
     const initialHabits = savedHabits ? JSON.parse(savedHabits) : []
-    setHabitList(initialHabits)
+    setHabitList(initialHabits) // Set habitList state
   }, [currentMonth])
 
   useEffect(() => {
@@ -67,7 +70,6 @@ export default function Home() {
 
   const monthYear = currentMonth.format('MMMM YYYY')
 
-  const [habitList, setHabitList] = useState<IHabit[]>([])
   const [defaultColors, setDefaultColors] = useState([
     { color: 'bg-green-200', colorFilled: '#84CC16' },
     { color: 'bg-indigo-200', colorFilled: '#6366f1' },
@@ -212,6 +214,7 @@ export default function Home() {
               addRecordForSelectedDay={addRecordForSelectedDay}
               onDeleteHabit={() => deleteHabit(habit.id)}
               defaultColors={defaultColors}
+              habitList={habitList} // Pass habitList to HabitLine
             />
           )
         })}
