@@ -1,11 +1,8 @@
-'use client'
 import React, { useState, ChangeEvent } from 'react'
 import Record from './Record'
 import dayjs from 'dayjs'
 import { IHabit, IRecord } from './page'
 
-//defining the prop types for the HabitLine component
-//specifies the expected type for various props
 interface HabitLineProps {
   color: string
   habit: IHabit
@@ -14,7 +11,7 @@ interface HabitLineProps {
   addRecordForSelectedDay: (habitId: string, date: string) => void
   onDeleteHabit: () => void
 }
-//functional component
+
 const HabitLine: React.FC<HabitLineProps> = ({
   color,
   habit,
@@ -23,23 +20,20 @@ const HabitLine: React.FC<HabitLineProps> = ({
   addRecordForSelectedDay,
   onDeleteHabit,
 }) => {
-  //calculates the number of days in the current month
   const daysInMonth = currentMonth.daysInMonth()
 
-  //retrieves the habit name from local storage or default
   const [habitName, setHabitName] = useState<string>(() => {
     const storedHabitNames = localStorage.getItem('habitNames')
     const habitNames = storedHabitNames ? JSON.parse(storedHabitNames) : {}
     return habitNames[habit.id] || habit.name || ''
   })
 
-  //changes the input field when typing = writing will apear = it updates the "habitName"
-  // state when the input value changes
+  const [editMode, setEditMode] = useState<boolean>(false)
+
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setHabitName(event.target.value)
   }
 
-  //when the inout field loses focus - it update the habit name in local storage
   const handleNameBlur = () => {
     const updatedHabitNames = {
       ...JSON.parse(localStorage.getItem('habitNames') || '{}'),
@@ -54,18 +48,31 @@ const HabitLine: React.FC<HabitLineProps> = ({
     addRecordForSelectedDay(habitId, date)
   }
 
+  const toggleEditMode = () => {
+    setEditMode(!editMode)
+  }
+
+  const handleSave = () => {
+    handleNameBlur()
+    toggleEditMode()
+  }
+
   return (
     <div
       className={`flex flex-wrap justify-between m-3 ${color} mx-auto max-w-screen-xl`}
     >
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
-        <input
-          type="text"
-          value={habitName}
-          onChange={handleNameChange}
-          onBlur={handleNameBlur}
-          placeholder="New Habit"
-        />
+        {editMode ? (
+          <input
+            type="text"
+            value={habitName}
+            onChange={handleNameChange}
+            onBlur={handleNameBlur}
+            placeholder="New Habit"
+          />
+        ) : (
+          <span>{habitName}</span>
+        )}
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
         <div className="flex flex-wrap justify-start">
@@ -85,13 +92,20 @@ const HabitLine: React.FC<HabitLineProps> = ({
           ))}
         </div>
         <div className={`flex flex-row-reverse mr-4`}>
-          <button
-            className={'text-gray-400'}
-            onClick={onDeleteHabit}
-            aria-label={`Delete habit ${habitName}`}
-          >
-            Delete
-          </button>
+          {editMode ? (
+            <>
+              <button className="text-gray-400" onClick={handleSave}>
+                Save
+              </button>
+              <button className="text-gray-400" onClick={onDeleteHabit}>
+                Delete
+              </button>
+            </>
+          ) : (
+            <button className="text-gray-400" onClick={toggleEditMode}>
+              Edit
+            </button>
+          )}
         </div>
       </div>
     </div>
