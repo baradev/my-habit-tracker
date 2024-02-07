@@ -205,13 +205,13 @@ export default function Home() {
 
           return (
             <HabitLine
-              color={habit.color}
               key={habit.id}
               habit={habit}
               currentMonth={currentMonth}
               checkedRecords={checkedRecords}
               addRecordForSelectedDay={addRecordForSelectedDay}
               onDeleteHabit={() => deleteHabit(habit.id)}
+              defaultColors={defaultColors}
             />
           )
         })}

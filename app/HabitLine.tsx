@@ -1,24 +1,26 @@
+// HabitLine.tsx
+
 import React, { useState, ChangeEvent } from 'react'
 import Record from './Record'
 import dayjs from 'dayjs'
 import { IHabit, IRecord } from './page'
 
 interface HabitLineProps {
-  color: string
   habit: IHabit
   currentMonth: dayjs.Dayjs
   checkedRecords: IRecord[]
   addRecordForSelectedDay: (habitId: string, date: string) => void
   onDeleteHabit: () => void
+  defaultColors: { color: string; colorFilled: string }[]
 }
 
 const HabitLine: React.FC<HabitLineProps> = ({
-  color,
   habit,
   currentMonth,
   checkedRecords,
   addRecordForSelectedDay,
   onDeleteHabit,
+  defaultColors,
 }) => {
   const daysInMonth = currentMonth.daysInMonth()
 
@@ -29,6 +31,11 @@ const HabitLine: React.FC<HabitLineProps> = ({
   })
 
   const [editMode, setEditMode] = useState<boolean>(false)
+  const [selectedBackgroundColor, setSelectedBackgroundColor] =
+    useState<string>(habit.color)
+  const [selectedColorFilled, setSelectedColorFilled] = useState<string>(
+    habit.colorFilled
+  )
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setHabitName(event.target.value)
@@ -57,19 +64,44 @@ const HabitLine: React.FC<HabitLineProps> = ({
     toggleEditMode()
   }
 
+  const handleBackgroundColorChange = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selectedColor = event.target.value
+    const selectedColorData = defaultColors.find(
+      (color) => color.color === selectedColor
+    )
+    if (selectedColorData) {
+      setSelectedBackgroundColor(selectedColor)
+      setSelectedColorFilled(selectedColorData.colorFilled)
+    }
+  }
+
   return (
     <div
-      className={`flex flex-wrap justify-between m-3 ${color} mx-auto max-w-screen-xl`}
+      className={`flex flex-wrap justify-between m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl`}
     >
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         {editMode ? (
-          <input
-            type="text"
-            value={habitName}
-            onChange={handleNameChange}
-            onBlur={handleNameBlur}
-            placeholder="New Habit"
-          />
+          <>
+            <input
+              type="text"
+              value={habitName}
+              onChange={handleNameChange}
+              onBlur={handleNameBlur}
+              placeholder="New Habit"
+            />
+            <select
+              value={selectedBackgroundColor}
+              onChange={handleBackgroundColorChange}
+            >
+              {defaultColors.map((col, index) => (
+                <option key={index} value={col.color}>
+                  {col.color}
+                </option>
+              ))}
+            </select>
+          </>
         ) : (
           <span>{habitName}</span>
         )}
@@ -87,7 +119,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
                   record.isDone === true
               )}
               onSquareClick={() => handleSquareClick(index + 1)}
-              colorFilled={habit.colorFilled}
+              colorFilled={selectedColorFilled}
             />
           ))}
         </div>
