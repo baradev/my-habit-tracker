@@ -130,11 +130,16 @@ const HabitLine: React.FC<HabitLineProps> = ({
               value={selectedBackgroundColor}
               onChange={handleBackgroundColorChange}
             >
-              {defaultColors.map((col, index) => (
-                <option key={index} value={col.color}>
-                  {col.color}
-                </option>
-              ))}
+              {defaultColors.map((col, index) => {
+                const colorName =
+                  col.color.split('-')[1].charAt(0).toUpperCase() +
+                  col.color.split('-')[1].slice(1)
+                return (
+                  <option key={index} value={col.color}>
+                    {colorName}
+                  </option>
+                )
+              })}
             </select>
           </>
         ) : (
@@ -142,22 +147,24 @@ const HabitLine: React.FC<HabitLineProps> = ({
         )}
       </div>
       <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
-        <div className="flex flex-wrap justify-start">
-          {Array.from({ length: daysInMonth }, (_, index) => (
-            <Record
-              key={index + 1}
-              day={index + 1}
-              isSelected={checkedRecords.some(
-                (record: IRecord) =>
-                  record.date ===
-                    currentMonth.date(index + 1).format('YYYY-MM-DD') &&
-                  record.isDone === true
-              )}
-              onSquareClick={() => handleSquareClick(index + 1)}
-              colorFilled={selectedColorFilled}
-            />
-          ))}
-        </div>
+        {!editMode && (
+          <div className="flex flex-wrap justify-start">
+            {Array.from({ length: daysInMonth }, (_, index) => (
+              <Record
+                key={index + 1}
+                day={index + 1}
+                isSelected={checkedRecords.some(
+                  (record: IRecord) =>
+                    record.date ===
+                      currentMonth.date(index + 1).format('YYYY-MM-DD') &&
+                    record.isDone === true
+                )}
+                onSquareClick={() => handleSquareClick(index + 1)}
+                colorFilled={selectedColorFilled}
+              />
+            ))}
+          </div>
+        )}
         <div className={`flex flex-row-reverse mr-4`}>
           {editMode ? (
             <>
