@@ -26,8 +26,10 @@ const HabitLine: React.FC<HabitLineProps> = ({
 }) => {
   const daysInMonth = currentMonth.daysInMonth()
 
+  //
   const [habitName, setHabitName] = useState<string>(() => {
     const storedHabitNames = localStorage.getItem('habitNames')
+    //if there are stored habit names it parses them from json into javascript object
     const habitNames = storedHabitNames ? JSON.parse(storedHabitNames) : {}
     return habitNames[habit.id] || habit.name || ''
   })
@@ -43,6 +45,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
     setHabitName(event.target.value)
   }
 
+  // save data when lose focus
   const handleNameBlur = () => {
     const updatedHabitNames = {
       ...JSON.parse(localStorage.getItem('habitNames') || '{}'),
@@ -62,7 +65,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
   }
 
   const handleSave = () => {
-    // Save updated habit name to local storage
+    // save updated habit name to local storage
     handleNameBlur()
 
     // Update the default colors with the selected background color

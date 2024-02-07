@@ -27,7 +27,7 @@ interface IRecordData {
 
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs())
-  const [habitList, setHabitList] = useState<IHabit[]>([]) // Define habitList state
+  const [habitList, setHabitList] = useState<IHabit[]>([])
 
   useEffect(() => {
     const savedMonth = localStorage.getItem('currentMonth')
@@ -39,7 +39,7 @@ export default function Home() {
     const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
     const savedHabits = localStorage.getItem(habitLocalStorageKey)
     const initialHabits = savedHabits ? JSON.parse(savedHabits) : []
-    setHabitList(initialHabits) // Set habitList state
+    setHabitList(initialHabits)
   }, [currentMonth])
 
   useEffect(() => {
@@ -214,7 +214,7 @@ export default function Home() {
               addRecordForSelectedDay={addRecordForSelectedDay}
               onDeleteHabit={() => deleteHabit(habit.id)}
               defaultColors={defaultColors}
-              habitList={habitList} // Pass habitList to HabitLine
+              habitList={habitList}
             />
           )
         })}
