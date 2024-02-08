@@ -115,19 +115,10 @@ export default function Home() {
 
     if (savedHabits) {
       initialHabits = JSON.parse(savedHabits)
+      setHabitList(initialHabits)
     } else {
-      const defaultHabit = {
-        color: 'bg-green-200',
-        colorFilled: '#84CC16',
-        name: '',
-        id: uuidv4(),
-      }
-
-      initialHabits = [defaultHabit]
-      localStorage.setItem(habitLocalStorageKey, JSON.stringify(initialHabits))
+      setHabitList([])
     }
-
-    setHabitList(initialHabits)
   }, [currentMonth])
 
   const deleteHabit = (habitId: string) => {
@@ -201,27 +192,30 @@ export default function Home() {
             </button>
           </div>
         </div>
-        {habitList.map((habit: IHabit) => {
-          const checkedRecords = recordData.filter((record: IRecord) => {
-            return (
-              record.habitId === habit.id &&
-              record.date.includes(currentMonth.format('YYYY-MM'))
-            )
-          })
-
-          return (
-            <HabitLine
-              key={habit.id}
-              habit={habit}
-              currentMonth={currentMonth}
-              checkedRecords={checkedRecords}
-              addRecordForSelectedDay={addRecordForSelectedDay}
-              onDeleteHabit={() => deleteHabit(habit.id)}
-              defaultColors={defaultColors}
-              habitList={habitList}
-            />
-          )
-        })}
+        {habitList.length > 0 && (
+          <>
+            {habitList.map((habit: IHabit) => {
+              const checkedRecords = recordData.filter((record: IRecord) => {
+                return (
+                  record.habitId === habit.id &&
+                  record.date.includes(currentMonth.format('YYYY-MM'))
+                )
+              })
+              return (
+                <HabitLine
+                  key={habit.id}
+                  habit={habit}
+                  currentMonth={currentMonth}
+                  checkedRecords={checkedRecords}
+                  addRecordForSelectedDay={addRecordForSelectedDay}
+                  onDeleteHabit={() => deleteHabit(habit.id)}
+                  defaultColors={defaultColors}
+                  habitList={habitList}
+                />
+              )
+            })}
+          </>
+        )}
       </div>
       <div className={`flex m-3 mx-auto max-w-screen-xl`}>
         <button className="btn btn-default" onClick={addNewHabit}>
