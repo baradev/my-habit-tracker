@@ -99,15 +99,12 @@ const HabitLine: React.FC<HabitLineProps> = ({
     localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabitList))
   }
 
-  const handleBackgroundColorChange = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedColor = event.target.value
+  const handleBackgroundColorChange = (selectedColor: string) => {
+    setSelectedBackgroundColor(selectedColor)
     const selectedColorData = defaultColors.find(
       (color) => color.color === selectedColor
     )
     if (selectedColorData) {
-      setSelectedBackgroundColor(selectedColor)
       setSelectedColorFilled(selectedColorData.colorFilled)
     }
   }
@@ -126,21 +123,18 @@ const HabitLine: React.FC<HabitLineProps> = ({
               onBlur={handleNameBlur}
               placeholder="New Habit"
             />
-            <select
-              value={selectedBackgroundColor}
-              onChange={handleBackgroundColorChange}
-            >
-              {defaultColors.map((col, index) => {
-                const colorName =
-                  col.color.split('-')[1].charAt(0).toUpperCase() +
-                  col.color.split('-')[1].slice(1)
-                return (
-                  <option key={index} value={col.color}>
-                    {colorName}
-                  </option>
-                )
-              })}
-            </select>
+            <div className="color-options">
+              {defaultColors.map((col, index) => (
+                <span
+                  key={index}
+                  className={`color-dot ${
+                    col.color === selectedBackgroundColor ? 'selected' : ''
+                  }`}
+                  style={{ backgroundColor: col.colorFilled }}
+                  onClick={() => handleBackgroundColorChange(col.color)}
+                ></span>
+              ))}
+            </div>
           </>
         ) : (
           <span>{habitName}</span>
