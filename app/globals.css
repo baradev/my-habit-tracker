@@ -23,15 +23,17 @@ input::placeholder {
 input {
   margin: 10px;
 }
+
 .color-dot {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  display: inline-block;
-  margin-right: 5px;
+  margin-right: 10px;
   cursor: pointer;
+  border: 2px solid white; /* Add a white border around the dots */
 }
 
-.selected {
-  border: 2px solid black;
+.color-options {
+  display: flex;
+  align-items: center;
 }
