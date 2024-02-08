@@ -1,6 +1,6 @@
 // HabitLine.tsx
 
-import React, { useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, useEffect } from 'react'
 import Record from './Record'
 import dayjs from 'dayjs'
 import { IHabit, IRecord } from './page'
@@ -26,26 +26,29 @@ const HabitLine: React.FC<HabitLineProps> = ({
 }) => {
   const daysInMonth = currentMonth.daysInMonth()
 
-  //
   const [habitName, setHabitName] = useState<string>(() => {
     const storedHabitNames = localStorage.getItem('habitNames')
-    //if there are stored habit names it parses them from json into javascript object
     const habitNames = storedHabitNames ? JSON.parse(storedHabitNames) : {}
     return habitNames[habit.id] || habit.name || ''
   })
 
-  const [editMode, setEditMode] = useState<boolean>(false)
+  const [editMode, setEditMode] = useState<boolean>(
+    () => habit.isEditMode || false
+  ) // Set initial edit mode based on habit's isEditMode property
   const [selectedBackgroundColor, setSelectedBackgroundColor] =
     useState<string>(habit.color)
   const [selectedColorFilled, setSelectedColorFilled] = useState<string>(
     habit.colorFilled
   )
 
+  useEffect(() => {
+    setEditMode(habit.isEditMode || false) // Update edit mode when habit's isEditMode property changes
+  }, [habit.isEditMode])
+
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setHabitName(event.target.value)
   }
 
-  // save data when lose focus
   const handleNameBlur = () => {
     const updatedHabitNames = {
       ...JSON.parse(localStorage.getItem('habitNames') || '{}'),
@@ -65,10 +68,8 @@ const HabitLine: React.FC<HabitLineProps> = ({
   }
 
   const handleSave = () => {
-    // save updated habit name to local storage
     handleNameBlur()
 
-    // Update the default colors with the selected background color
     const updatedColors = defaultColors.map((color) =>
       color.color === selectedBackgroundColor
         ? {
@@ -79,13 +80,10 @@ const HabitLine: React.FC<HabitLineProps> = ({
         : color
     )
 
-    // Save updated colors to local storage
     localStorage.setItem('defaultColors', JSON.stringify(updatedColors))
 
-    // Toggle edit mode
     toggleEditMode()
 
-    // Save updated habit color to local storage
     const updatedHabitList = habitList.map((habitItem) =>
       habitItem.id === habit.id
         ? {

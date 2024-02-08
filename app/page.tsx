@@ -12,6 +12,7 @@ export interface IHabit {
   colorFilled: string
   name: string
   id: string
+  isEditMode?: boolean
 }
 
 export interface IRecord {
@@ -28,6 +29,7 @@ interface IRecordData {
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs())
   const [habitList, setHabitList] = useState<IHabit[]>([])
+  const [habitInEditMode, setHabitInEditMode] = useState<string | null>(null)
 
   useEffect(() => {
     const savedMonth = localStorage.getItem('currentMonth')
@@ -91,6 +93,7 @@ export default function Home() {
       colorFilled,
       name: '',
       id: uuidv4(),
+      isEditMode: true,
     }
 
     setHabitList((prevHabits) => {
@@ -102,6 +105,7 @@ export default function Home() {
       )
       return updatedHabitList
     })
+    setHabitInEditMode(newHabit.id)
   }
 
   useEffect(() => {
