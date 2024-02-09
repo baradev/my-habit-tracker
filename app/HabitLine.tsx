@@ -109,9 +109,11 @@ const HabitLine: React.FC<HabitLineProps> = ({
 
   return (
     <div
-      className={`flex m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl p-3 h-36`}
+      className={`habit-line-container flex m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl p-3 min-h-[140px] ${
+        editMode ? 'h-auto' : `h-${daysInMonth * 4}` // Adjust the multiplier based on your design
+      }`}
     >
-      <div className="  w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
+      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         {editMode ? (
           <>
             <input
