@@ -94,26 +94,41 @@ export default function Home() {
 
     const colorIndex = habitList.length % defaultColors.length
     const { color, colorFilled } = defaultColors[colorIndex]
+    const newHabitId = uuidv4()
 
-    const newHabit: IHabit = {
-      color,
-      colorFilled,
-      name: '',
-      id: uuidv4(),
-      isNew: true,
-      isEditMode: true,
+    for (let i = 0; i <= 3; i++) {
+      // Assuming you want to add habits for the next 4 months
+      const monthToAddHabit = currentMonth.add(i, 'month')
+      const habitLocalStorageKey = `habitData_${monthToAddHabit.format(
+        'YYYY-MM'
+      )}`
+      const savedHabits = localStorage.getItem(habitLocalStorageKey)
+      const initialHabits = savedHabits ? JSON.parse(savedHabits) : []
+      const updatedHabits = [
+        ...initialHabits,
+        {
+          color,
+          colorFilled,
+          name: '',
+          id: newHabitId,
+          isNew: true,
+          isEditMode: true,
+        },
+      ]
+      localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabits))
     }
-
-    setHabitList((prevHabits) => {
-      const updatedHabitList = [...prevHabits, newHabit]
-      const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
-      localStorage.setItem(
-        habitLocalStorageKey,
-        JSON.stringify(updatedHabitList)
-      )
-      return updatedHabitList
-    })
-    setHabitInEditMode(newHabit.id)
+    setHabitList((prevHabits) => [
+      ...prevHabits,
+      {
+        color,
+        colorFilled,
+        name: '',
+        id: newHabitId,
+        isNew: true,
+        isEditMode: true,
+      },
+    ])
+    setHabitInEditMode(newHabitId)
   }
 
   const deleteHabit = (habitId: string) => {
