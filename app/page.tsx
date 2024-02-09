@@ -13,6 +13,7 @@ export interface IHabit {
   name: string
   id: string
   isEditMode?: boolean
+  isNew?: boolean
 }
 
 export interface IRecord {
@@ -41,7 +42,13 @@ export default function Home() {
     const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
     const savedHabits = localStorage.getItem(habitLocalStorageKey)
     const initialHabits = savedHabits ? JSON.parse(savedHabits) : []
-    setHabitList(initialHabits)
+    setHabitList(
+      initialHabits.map((habit: IHabit) => ({
+        ...habit,
+        isNew: false,
+        isEditMode: false,
+      }))
+    )
   }, [currentMonth])
 
   useEffect(() => {
@@ -93,6 +100,7 @@ export default function Home() {
       colorFilled,
       name: '',
       id: uuidv4(),
+      isNew: true,
       isEditMode: true,
     }
 
@@ -107,19 +115,6 @@ export default function Home() {
     })
     setHabitInEditMode(newHabit.id)
   }
-
-  useEffect(() => {
-    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
-    const savedHabits = localStorage.getItem(habitLocalStorageKey)
-    let initialHabits
-
-    if (savedHabits) {
-      initialHabits = JSON.parse(savedHabits)
-      setHabitList(initialHabits)
-    } else {
-      setHabitList([])
-    }
-  }, [currentMonth])
 
   const deleteHabit = (habitId: string) => {
     const updatedHabitList = habitList.filter((habit) => habit.id !== habitId)
