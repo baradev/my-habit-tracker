@@ -109,9 +109,9 @@ const HabitLine: React.FC<HabitLineProps> = ({
 
   return (
     <div
-      className={`flex m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl`}
+      className={`flex m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl p-3 h-36`}
     >
-      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
+      <div className="  w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         {editMode ? (
           <>
             <input
@@ -135,7 +135,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
             </div>
           </>
         ) : (
-          <span className="text-lg font-bold ml-6">{habitName}</span>
+          <span className="text-lg font-semibold ml-6">{habitName}</span>
         )}
       </div>
       <div className="flex w-full md:w-1/2 lg:w-2/3 xl:w-3/4 ">
