@@ -110,7 +110,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
   return (
     <div
       className={`habit-line-container flex m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl p-3 min-h-[140px] ${
-        editMode ? 'h-auto' : `h-${daysInMonth * 4}` // Adjust the multiplier based on your design
+        editMode ? 'h-auto' : `h-${daysInMonth * 4}`
       }`}
     >
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
@@ -122,19 +122,8 @@ const HabitLine: React.FC<HabitLineProps> = ({
               onChange={handleNameChange}
               onBlur={handleNameBlur}
               placeholder="New Habit"
+              style={{ width: '600px', height: '40px' }}
             />
-            <div className="color-options">
-              {defaultColors.map((col, index) => (
-                <span
-                  key={index}
-                  className={`color-dot ${
-                    col.color === selectedBackgroundColor ? 'selected' : ''
-                  }`}
-                  style={{ backgroundColor: col.colorFilled }}
-                  onClick={() => handleBackgroundColorChange(col.color)}
-                ></span>
-              ))}
-            </div>
           </>
         ) : (
           <span className="text-lg font-semibold ml-6">{habitName}</span>
@@ -156,6 +145,20 @@ const HabitLine: React.FC<HabitLineProps> = ({
                 onSquareClick={() => handleSquareClick(index + 1)}
                 colorFilled={selectedColorFilled}
               />
+            ))}
+          </div>
+        )}
+        {editMode && (
+          <div className="color-options">
+            {defaultColors.map((col, index) => (
+              <span
+                key={index}
+                className={`color-dot ${
+                  col.color === selectedBackgroundColor ? 'selected' : ''
+                }`}
+                style={{ backgroundColor: col.colorFilled }}
+                onClick={() => handleBackgroundColorChange(col.color)}
+              ></span>
             ))}
           </div>
         )}
