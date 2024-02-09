@@ -109,7 +109,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
 
   return (
     <div
-      className={`flex flex-wrap justify-between m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl`}
+      className={`flex m-3 ${selectedBackgroundColor} mx-auto max-w-screen-xl`}
     >
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 md:mb-0 flex items-center xl:justify-start">
         {editMode ? (
@@ -135,12 +135,12 @@ const HabitLine: React.FC<HabitLineProps> = ({
             </div>
           </>
         ) : (
-          <span>{habitName}</span>
+          <span className="text-lg font-bold ml-6">{habitName}</span>
         )}
       </div>
-      <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4">
+      <div className="flex w-full md:w-1/2 lg:w-2/3 xl:w-3/4 ">
         {!editMode && (
-          <div className="flex flex-wrap justify-start">
+          <div className="flex flex-wrap justify-start ">
             {Array.from({ length: daysInMonth }, (_, index) => (
               <Record
                 key={index + 1}
@@ -157,22 +157,22 @@ const HabitLine: React.FC<HabitLineProps> = ({
             ))}
           </div>
         )}
-        <div className={`flex flex-row-reverse mr-4`}>
-          {editMode ? (
-            <>
-              <button className="text-gray-400" onClick={handleSave}>
-                Save
-              </button>
-              <button className="text-gray-400" onClick={onDeleteHabit}>
-                Delete
-              </button>
-            </>
-          ) : (
-            <button className="text-gray-400" onClick={toggleEditMode}>
-              Edit
+      </div>
+      <div className={`flex items-end mr-4 mb-2`}>
+        {editMode ? (
+          <>
+            <button className="mr-5 text-gray-400" onClick={handleSave}>
+              Save
             </button>
-          )}
-        </div>
+            <button className="text-gray-400" onClick={onDeleteHabit}>
+              Delete
+            </button>
+          </>
+        ) : (
+          <button className="text-gray-400" onClick={toggleEditMode}>
+            Edit
+          </button>
+        )}
       </div>
     </div>
   )
