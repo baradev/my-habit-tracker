@@ -1,7 +1,4 @@
-// Home.tsx
-
 'use client'
-
 import React, { useState, useEffect } from 'react'
 import HabitLine from './HabitLine'
 import dayjs from 'dayjs'
@@ -96,9 +93,16 @@ export default function Home() {
     const { color, colorFilled } = defaultColors[colorIndex]
     const newHabitId = uuidv4()
 
-    for (let i = 0; i <= 3; i++) {
-      // Assuming you want to add habits for the next 4 months
-      const monthToAddHabit = currentMonth.add(i, 'month')
+    // Update the habit list for every future month
+
+    const savedMonths: string[] = JSON.parse(
+      localStorage.getItem('savedMonths') || '[]'
+    )
+    const updatedMonths = new Set(savedMonths)
+    const futureMonths = [] // Keep track of future months for which habits are added
+    for (let i = 0; i <= 12; i++) {
+      // Adding habits for next 12 months, you can adjust this as needed
+      const monthToAddHabit = currentMonth.clone().add(i, 'month')
       const habitLocalStorageKey = `habitData_${monthToAddHabit.format(
         'YYYY-MM'
       )}`
@@ -116,7 +120,16 @@ export default function Home() {
         },
       ]
       localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabits))
+      futureMonths.push(monthToAddHabit.format('YYYY-MM'))
     }
+    // Update the saved months set
+    futureMonths.forEach((month) => updatedMonths.add(month))
+    localStorage.setItem(
+      'savedMonths',
+      JSON.stringify(Array.from(updatedMonths))
+    )
+
+    // Update the habit list state for the current month
     setHabitList((prevHabits) => [
       ...prevHabits,
       {
@@ -128,26 +141,71 @@ export default function Home() {
         isEditMode: true,
       },
     ])
+
+    // Set the habit in edit mode
     setHabitInEditMode(newHabitId)
   }
 
   const deleteHabit = (habitId: string) => {
+    const savedMonths: string[] = JSON.parse(
+      localStorage.getItem('savedMonths') || '[]'
+    )
+    // Remove the habit from the habit list of the current month
     const updatedHabitList = habitList.filter((habit) => habit.id !== habitId)
     setHabitList(updatedHabitList)
 
-    const habitLocalStorageKey = `habitData_${currentMonth.format('YYYY-MM')}`
-    localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabitList))
+    // Remove the habit from the habit lists of all future months
+    savedMonths.forEach((month: string) => {
+      const habitLocalStorageKey = `habitData_${month}`
+      const savedHabits = localStorage.getItem(habitLocalStorageKey)
+      if (savedHabits) {
+        const updatedHabits = JSON.parse(savedHabits).filter(
+          (habit: IHabit) => habit.id !== habitId
+        )
+        localStorage.setItem(
+          habitLocalStorageKey,
+          JSON.stringify(updatedHabits)
+        )
+      }
+    })
 
+    // Update the saved months set
+    const updatedMonths = new Set(
+      savedMonths.filter((month: string) => {
+        const habitLocalStorageKey = `habitData_${month}`
+        const savedHabits = localStorage.getItem(habitLocalStorageKey)
+        return savedHabits
+          ? JSON.parse(savedHabits).some(
+              (habit: IHabit) => habit.id === habitId
+            )
+          : false
+      })
+    )
+    localStorage.setItem(
+      'savedMonths',
+      JSON.stringify(Array.from(updatedMonths))
+    )
+
+    // Remove the habit's records from the current month's record data
     const updatedRecordData = recordData.filter(
       (record) => record.habitId !== habitId
     )
     setRecordData(updatedRecordData)
 
-    const recordLocalStorageKey = `recordData_${currentMonth.format('YYYY-MM')}`
-    localStorage.setItem(
-      recordLocalStorageKey,
-      JSON.stringify(updatedRecordData)
-    )
+    // Remove the habit's records from the record data of all future months
+    savedMonths.forEach((month) => {
+      const recordLocalStorageKey = `recordData_${month}`
+      const savedRecords = localStorage.getItem(recordLocalStorageKey)
+      if (savedRecords) {
+        const updatedRecords = JSON.parse(savedRecords).filter(
+          (record: IRecord) => record.habitId !== habitId
+        )
+        localStorage.setItem(
+          recordLocalStorageKey,
+          JSON.stringify(updatedRecords)
+        )
+      }
+    })
   }
 
   const addRecordForSelectedDay = (habitId: string, date: string) => {
