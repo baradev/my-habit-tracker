@@ -118,6 +118,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
         {editMode ? (
           <>
             <input
+              className="input input-bordered w-full max-w-xs"
               type="text"
               value={habitName}
               onChange={handleNameChange}
@@ -129,7 +130,6 @@ const HabitLine: React.FC<HabitLineProps> = ({
                 }
               }}
               placeholder="New Habit"
-              style={{ width: '600px', height: '40px', padding: '0 10px' }}
             />
           </>
         ) : (
