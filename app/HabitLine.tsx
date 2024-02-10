@@ -170,7 +170,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
           </div>
         )}
       </div>
-      <div className={`flex items-center mr-1 ml-3 mb-2`}>
+      <div className={`flex items-center mr-1 ml-2.5 mb-2`}>
         {editMode ? (
           <>
             <button
