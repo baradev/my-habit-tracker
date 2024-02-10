@@ -25,7 +25,7 @@ const Record: React.FC<RecordProps> = ({
     <div
       onClick={handleClick} // Use handleClick instead of onSquareClick directly
       style={squareStyle}
-      className="flex items-center justify-center rounded-lg w-10 h-10 m-2 cursor-pointer"
+      className="flex items-center justify-center rounded-lg w-10 h-10 m-2 select-none cursor-pointer"
     >
       <span className={isSelected ? 'text-white' : 'text-gray-400'}>{day}</span>
     </div>
