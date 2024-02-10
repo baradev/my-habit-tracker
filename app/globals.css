@@ -15,3 +15,17 @@ body {
   color: rgb(var (--foreground-rgb));
   padding: 1rem;
 }
+
+.color-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 2px solid white; /* Add a white border around the dots */
+}
+
+.color-options {
+  display: flex;
+  align-items: center;
+}
