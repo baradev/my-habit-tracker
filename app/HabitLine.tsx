@@ -176,14 +176,30 @@ const HabitLine: React.FC<HabitLineProps> = ({
             <button className="mr-5 text-gray-400" onClick={handleSave}>
               Save
             </button>
-            <button className="text-gray-400" onClick={onDeleteHabit}>
-              Delete
+            <button
+              onClick={onDeleteHabit}
+              className="btn btn-ghost text-gray-400 p-2.5 hover:"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
             </button>
           </>
         ) : (
           <button
             onClick={toggleEditMode}
-            className="flex p-2.5 bg-grey-400 transition-all duration-300 text-gray-400"
+            className="btn btn-ghost flex p-2.5 bg-grey-400 text-gray-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
