@@ -88,16 +88,15 @@ export default function Home() {
     const colorIndex = habitList.length % defaultColors.length
     const { color, colorFilled } = defaultColors[colorIndex]
     const newHabitId = uuidv4()
+    const newHabitName = 'New Habit' // Set the default habit name here
 
     // Update the habit list for every future month
-
     const savedMonths: string[] = JSON.parse(
       localStorage.getItem('savedMonths') || '[]'
     )
     const updatedMonths = new Set(savedMonths)
-    const futureMonths = [] // Keep track of future months for which habits are added
+    const futureMonths = []
     for (let i = 0; i <= 12; i++) {
-      // Adding habits for next 12 months, you can adjust this as needed
       const monthToAddHabit = currentMonth.clone().add(i, 'month')
       const habitLocalStorageKey = `habitData_${monthToAddHabit.format(
         'YYYY-MM'
@@ -109,7 +108,7 @@ export default function Home() {
         {
           color,
           colorFilled,
-          name: '',
+          name: newHabitName, // Set the habit name here
           id: newHabitId,
           isNew: true,
           isEditMode: true,
@@ -118,7 +117,6 @@ export default function Home() {
       localStorage.setItem(habitLocalStorageKey, JSON.stringify(updatedHabits))
       futureMonths.push(monthToAddHabit.format('YYYY-MM'))
     }
-    // Update the saved months set
     futureMonths.forEach((month) => updatedMonths.add(month))
     localStorage.setItem(
       'savedMonths',
@@ -131,7 +129,7 @@ export default function Home() {
       {
         color,
         colorFilled,
-        name: '',
+        name: newHabitName, // Set the habit name here
         id: newHabitId,
         isNew: true,
         isEditMode: true,
