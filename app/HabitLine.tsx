@@ -52,8 +52,9 @@ const HabitLine: React.FC<HabitLineProps> = ({
   const handleNameBlur = () => {
     const updatedHabitNames = {
       ...JSON.parse(localStorage.getItem('habitNames') || '{}'),
-      [habit.id]: habitName,
+      [habit.id]: habitName.trim() || 'New Habit', // Set to 'New Habit' if input is empty
     }
+    setHabitName(habitName.trim() || 'New Habit') // Update habitName state
     localStorage.setItem('habitNames', JSON.stringify(updatedHabitNames))
   }
 
