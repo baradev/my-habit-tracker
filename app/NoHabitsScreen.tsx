@@ -9,8 +9,10 @@ export const NoHabitsScreen: React.FC<NoHabitsScreenProps> = ({
 }) => {
   return (
     <div className="m-3 text-center">
-      <p>You do not have a habit yet, go ahead and create one</p>
-      <button className={`btn btn-default`} onClick={addNewHabit}>
+      <div className="flex justify-center mb-10 mt-10 font-medium text-lg">
+        <p>You do not have a habit yet, go ahead and create one</p>
+      </div>
+      <button className={`btn btn-active btn-secondary`} onClick={addNewHabit}>
         Create a habit
       </button>
     </div>

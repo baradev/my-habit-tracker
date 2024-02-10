@@ -85,16 +85,6 @@ export default function Home() {
   ])
 
   const addNewHabit = () => {
-    if (currentMonth.isBefore(dayjs(), 'month')) {
-      alert("You can't add habits in the past.")
-      return
-    }
-
-    if (habitList.length >= 4) {
-      alert("You can't track more than 4 habits per month")
-      return
-    }
-
     const colorIndex = habitList.length % defaultColors.length
     const { color, colorFilled } = defaultColors[colorIndex]
     const newHabitId = uuidv4()
