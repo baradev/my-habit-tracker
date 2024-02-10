@@ -156,7 +156,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
           </div>
         )}
         {editMode && (
-          <div className="color-options">
+          <div className="color-options ml-4">
             {defaultColors.map((col, index) => (
               <span
                 key={index}
@@ -181,9 +181,6 @@ const HabitLine: React.FC<HabitLineProps> = ({
             </button>
           </>
         ) : (
-          /*  <button className="text-gray-400" onClick={toggleEditMode}>
-            Edit
-          </button> */
           <button
             onClick={toggleEditMode}
             className="flex p-2.5 bg-grey-400 transition-all duration-300 text-gray-400"

@@ -16,14 +16,6 @@ body {
   padding: 1rem;
 }
 
-input::placeholder {
-  padding-left: 10px;
-}
-
-input {
-  margin: 10px;
-}
-
 .color-dot {
   width: 30px;
   height: 30px;
