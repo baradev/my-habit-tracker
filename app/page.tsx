@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import HabitLine from './HabitLine'
 import dayjs from 'dayjs'
 import { v4 as uuidv4 } from 'uuid'
+import { NoHabitsScreen } from './NoHabitsScreen'
 
 export interface IHabit {
   color: string
@@ -84,6 +85,11 @@ export default function Home() {
   ])
 
   const addNewHabit = () => {
+    if (currentMonth.isBefore(dayjs(), 'month')) {
+      alert("You can't add habits in the past.")
+      return
+    }
+
     if (habitList.length >= 4) {
       alert("You can't track more than 4 habits per month")
       return
@@ -242,6 +248,7 @@ export default function Home() {
             </button>
           </div>
         </div>
+        {habitList.length === 0 && <NoHabitsScreen addNewHabit={addNewHabit} />}
         {habitList.length > 0 && (
           <>
             {habitList.map((habit: IHabit) => {
@@ -264,14 +271,14 @@ export default function Home() {
                 />
               )
             })}
+            <div className={`flex m-3 mx-auto max-w-screen-xl`}>
+              {habitList.length < 4 && (
+                <button className="btn btn-default" onClick={addNewHabit}>
+                  +
+                </button>
+              )}
+            </div>
           </>
-        )}
-      </div>
-      <div className={`flex m-3 mx-auto max-w-screen-xl`}>
-        {habitList.length < 4 && (
-          <button className="btn btn-default" onClick={addNewHabit}>
-            +
-          </button>
         )}
       </div>
     </main>
