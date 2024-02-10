@@ -121,6 +121,12 @@ const HabitLine: React.FC<HabitLineProps> = ({
               value={habitName}
               onChange={handleNameChange}
               onBlur={handleNameBlur}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handleNameBlur()
+                  toggleEditMode()
+                }
+              }}
               placeholder="New Habit"
               style={{ width: '600px', height: '40px', padding: '0 10px' }}
             />
