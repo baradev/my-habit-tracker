@@ -29,7 +29,6 @@ export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(dayjs())
   const [habitList, setHabitList] = useState<IHabit[]>([])
   const [habitInEditMode, setHabitInEditMode] = useState<string | null>(null)
-  const [isPastNoHabits, setIsPastNoHabits] = useState<boolean>(false)
 
   useEffect(() => {
     const savedMonth = localStorage.getItem('currentMonth')
@@ -66,7 +65,6 @@ export default function Home() {
   )
 
   const changeMonth = (increment: number) => {
-    if (isPastNoHabits && increment === -1) return // Prevent rolling back in history if there are no habits saved in the past
     const newMonth = currentMonth.add(increment, 'month')
     setCurrentMonth(newMonth)
     localStorage.setItem('currentMonth', newMonth.format())
@@ -237,82 +235,58 @@ export default function Home() {
     return habitList.length === 0
   }
 
-  const isPastMonth = currentMonth.isBefore(dayjs(), 'month')
-
-  useEffect(() => {
-    if (hasNoHabits() && isPastMonth) {
-      setIsPastNoHabits(true)
-    } else {
-      setIsPastNoHabits(false)
-    }
-  }, [habitList, currentMonth])
-
   return (
     <main>
-      <div>
-        <div className={`flex flex-row-reverse m-3 mx-auto max-w-screen-xl`}>
-          <div className="join flex">
-            {!isPastNoHabits && (
-              <>
-                <button
-                  className="join-item btn"
-                  onClick={() => changeMonth(-1)}
-                >
-                  «
-                </button>
-                <button className="join-item btn w-40">{monthYear}</button>
-              </>
-            )}
-            {!isPastNoHabits && (
+      {hasNoHabits() && <NoHabitsScreen addNewHabit={addNewHabit} />}
+      {!hasNoHabits() && (
+        <div>
+          <div className={`flex flex-row-reverse m-3 mx-auto max-w-screen-xl`}>
+            <div className="join flex">
+              <button className="join-item btn" onClick={() => changeMonth(-1)}>
+                «
+              </button>
+              <button className="join-item btn w-40">{monthYear}</button>
               <button className="join-item btn" onClick={() => changeMonth(1)}>
                 »
               </button>
+              <button className="join-item btn" onClick={resetToCurrentDay}>
+                Today
+              </button>
+            </div>
+          </div>
+          {habitList.length > 0 && (
+            <>
+              {habitList.map((habit: IHabit) => {
+                const checkedRecords = recordData.filter((record: IRecord) => {
+                  return (
+                    record.habitId === habit.id &&
+                    record.date.includes(currentMonth.format('YYYY-MM'))
+                  )
+                })
+                return (
+                  <HabitLine
+                    key={habit.id}
+                    habit={habit}
+                    currentMonth={currentMonth}
+                    checkedRecords={checkedRecords}
+                    addRecordForSelectedDay={addRecordForSelectedDay}
+                    onDeleteHabit={() => deleteHabit(habit.id)}
+                    defaultColors={defaultColors}
+                    habitList={habitList}
+                  />
+                )
+              })}
+            </>
+          )}
+          <div className={`flex m-3 mx-auto max-w-screen-xl`}>
+            {habitList.length < 4 && (
+              <button className="btn btn-default" onClick={addNewHabit}>
+                +
+              </button>
             )}
-            <button className="join-item btn" onClick={resetToCurrentDay}>
-              Today
-            </button>
           </div>
         </div>
-        {isPastNoHabits && (
-          <div className="m-3 text-center">
-            <p>You didn't create any habits in the past.</p>
-          </div>
-        )}
-        {!isPastNoHabits && hasNoHabits() && (
-          <NoHabitsScreen addNewHabit={addNewHabit} />
-        )}
-        {!hasNoHabits() && (
-          <>
-            {habitList.map((habit: IHabit) => {
-              const checkedRecords = recordData.filter((record: IRecord) => {
-                return (
-                  record.habitId === habit.id &&
-                  record.date.includes(currentMonth.format('YYYY-MM'))
-                )
-              })
-              return (
-                <HabitLine
-                  key={habit.id}
-                  habit={habit}
-                  currentMonth={currentMonth}
-                  checkedRecords={checkedRecords}
-                  addRecordForSelectedDay={addRecordForSelectedDay}
-                  onDeleteHabit={() => deleteHabit(habit.id)}
-                  defaultColors={defaultColors}
-                  habitList={habitList}
-                />
-              )
-            })}
-            <div className={`flex m-3 mx-auto max-w-screen-xl`}>
-              {habitList.length < 4 && (
-                <button className="btn btn-default" onClick={addNewHabit}>
-                  +
-                </button>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+      )}
     </main>
   )
 }
