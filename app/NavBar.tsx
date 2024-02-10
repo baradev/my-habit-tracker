@@ -6,7 +6,10 @@ import React from 'react'
 
 const NavBar = () => {
   const currentPath = usePathname()
-  const links = [{ label: 'My Habit Tracker', href: '/' }]
+  const links = [
+    { label: 'My Habit Planner', href: '/' },
+    { label: 'To Do', href: '/todo' },
+  ]
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center font-medium">
       <ul className="flex space-x-6">
