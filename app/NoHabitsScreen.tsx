@@ -13,7 +13,7 @@ export const NoHabitsScreen: React.FC<NoHabitsScreenProps> = ({
         <p>You are not tracking any habits yet. Go ahead and create one.</p>
       </div>
       <button className={`btn btn-active btn-secondary`} onClick={addNewHabit}>
-        Create a habit bla bla
+        Create a habit
       </button>
     </div>
   )
