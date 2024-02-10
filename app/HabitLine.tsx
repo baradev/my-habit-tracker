@@ -122,7 +122,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
               onChange={handleNameChange}
               onBlur={handleNameBlur}
               placeholder="New Habit"
-              style={{ width: '600px', height: '40px' }}
+              style={{ width: '600px', height: '40px', padding: '0 10px' }}
             />
           </>
         ) : (
@@ -131,7 +131,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
       </div>
       <div className="flex w-full md:w-1/2 lg:w-2/3 xl:w-3/4 ">
         {!editMode && (
-          <div className="flex flex-wrap justify-start ">
+          <div className="flex flex-wrap justify-start">
             {Array.from({ length: daysInMonth }, (_, index) => (
               <Record
                 key={index + 1}
@@ -163,7 +163,7 @@ const HabitLine: React.FC<HabitLineProps> = ({
           </div>
         )}
       </div>
-      <div className={`flex items-end mr-4 mb-2`}>
+      <div className={`flex items-center mr-1 ml-3 mb-2`}>
         {editMode ? (
           <>
             <button className="mr-5 text-gray-400" onClick={handleSave}>
@@ -174,8 +174,27 @@ const HabitLine: React.FC<HabitLineProps> = ({
             </button>
           </>
         ) : (
-          <button className="text-gray-400" onClick={toggleEditMode}>
+          /*  <button className="text-gray-400" onClick={toggleEditMode}>
             Edit
+          </button> */
+          <button
+            onClick={toggleEditMode}
+            className="flex p-2.5 bg-grey-400 transition-all duration-300 text-gray-400"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
+            </svg>
           </button>
         )}
       </div>

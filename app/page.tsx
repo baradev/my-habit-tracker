@@ -269,7 +269,7 @@ export default function Home() {
       </div>
       <div className={`flex m-3 mx-auto max-w-screen-xl`}>
         <button className="btn btn-default" onClick={addNewHabit}>
-          Add Habit
+          +
         </button>
       </div>
     </main>
