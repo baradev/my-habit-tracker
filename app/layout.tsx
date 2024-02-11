@@ -14,19 +14,6 @@ export const metadata: Metadata = {
     description: 'Unlocking potential through habit tracking.',
     url: 'https://my-habit-tracker-orcin.vercel.app/',
     siteName: 'Habit Tracker',
-    images: [
-      {
-        url: 'https://my-habit-tracker-orcin.vercel.png/', // Must be an absolute URL
-        width: 800,
-        height: 600,
-      },
-      {
-        url: 'https://my-habit-tracker-orcin.vercel.png/', // Must be an absolute URL
-        width: 1800,
-        height: 1600,
-        alt: 'My custom alt',
-      },
-    ],
     locale: 'en_NZ',
     type: 'website',
   },
