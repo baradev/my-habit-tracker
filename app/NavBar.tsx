@@ -18,7 +18,7 @@ const NavBar = () => {
             key={link.href}
             className={`${
               link.href === currentPath ? 'text-gray-600' : 'text-gray-300'
-            } hover:text-gray-800 transition-colors`}
+            } hover:text-gray-700 transition-colors`}
             href={link.href}
           >
             {link.label}
