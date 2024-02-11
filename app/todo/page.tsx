@@ -9,6 +9,7 @@ const ToDo = () => {
       <div className="m-5 sm:m-10 md:m-10 lg:m-10">
         <ul className="list-disc">
           <li>Connecting App to Database</li>
+          <li>Styling for Night Mode</li>
         </ul>
       </div>
     </div>
